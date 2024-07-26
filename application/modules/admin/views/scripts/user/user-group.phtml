@@ -1,0 +1,280 @@
+<!-- BEGIN: Page Main-->
+<div id="main">
+    <div class="row">
+        <div id="breadcrumbs-wrapper"
+            data-image="<?php echo C_GLOBAL_APP_ASSET; ?>images/gallery/breadcrumb-bg.jpg">
+            <!-- Search for small screen-->
+            <div class="container">
+                <div class="row">
+                    <div class="col s12 m6 l6">
+                        <h5 class="breadcrumbs-title mt-0 mb-0"><span>Member List</span></h5>
+                    </div>
+                    <div class="col s12 m6 l6 right-align-md">
+                        <ol class="breadcrumbs mb-0">
+                            <li class="breadcrumb-item"><a href="index">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">Member List
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12">
+            <div class="container">
+                <!-- users list start -->
+                <section class="users-list-wrapper section">
+                    <div class="users-list-filter">
+                        <div class="card-panel">
+                            <div class="row">
+                                <div class="col s12 m4 l3">
+                                    <label for="search_name">Group Name</label>
+                                    <div class="input-field">
+                                        <input type="text" id="search_name" class="dt-search" data-dt-col="1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <a onclick="_dtSearch()" class="btn indigo waves-effect waves-light mr-2">Search</a>
+                                    <a onclick="_resetDtSearch()" class="btn grey darken-3 waves-effect waves-light mr-2">Reset</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a class="waves-effect waves-light btn modal-trigger mb-2 mr-1" onclick="showModal()">Add New Group</a>
+
+                    <div id="modal1" class="modal modal-fixed-footer">
+                        <div class="modal-content">
+                            <h4 id="modal_title"></h4>
+                            <form class="paaswordvalidate">
+                                <div class="row">
+                                    <div class="col s12">
+                                        <input type="hidden" id="item_id" name="item_id" value="0" data-error=".errorTxt1">
+                                    </div>
+                                    <div class="col s12">
+                                        <div class="input-field">
+                                            <label for="group_name">Group Name</label>
+                                            <input type="text" id="group_name" name="group_name" value="Group Name" data-error=".errorTxt1">
+                                            <small class="errorTxt1"></small>
+                                        </div>
+                                    </div>
+                                    <div class="col s12">
+                                        <div class="input-field">
+                                            <label for="min_deposit">Min Deposit</label>
+                                            <input type="number" id="min_deposit" name="min_deposit" value="0" data-error=".errorTxt1">
+                                            <small class="errorTxt1"></small>
+                                        </div>
+                                    </div>
+                                    <div class="col s12">
+                                        <div class="input-field">
+                                            <label for="max_deposit">Max Deposit</label>
+                                            <input type="number" id="max_deposit" name="max_deposit" value="0" data-error=".errorTxt1">
+                                            <small class="errorTxt1"></small>
+                                        </div>
+                                    </div>
+                                    <div class="col s12">
+                                        <div class="input-field">
+                                            <label for="daily_max_withdrawal_count">Daily Withdrawal Limit Count</label>
+                                            <input type="number" id="daily_max_withdrawal_count" name="daily_max_withdrawal_count" value="0" data-error=".errorTxt1">
+                                            <small class="errorTxt1"></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="col s12 display-flex justify-content-end form-action">
+                                <a onclick="addItem()" class="btn indigo waves-effect waves-light mr-2">
+                                    Save changes
+                                </a>
+                                <a onclick="$('#modal1').modal('close');" class="btn btn-light-pink waves-effect waves-light mb-1">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="users-list-table">
+                        <div class="card">
+                            <div class="card-content">
+                                <!-- datatable start -->
+                                <div class="responsive-table" style="overflow-x:auto;">
+                                    <table id="list-datatable" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Group Name</th>
+                                                <th>Min Deposit</th>
+                                                <th>Max Deposit</th>
+                                                <th>Daily Withdrawal Limit Count</th>
+                                                <th>Edit</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- datatable ends -->
+                            </div>
+                        </div>
+                    </div>
+
+
+                </section>
+                <!-- users list ends -->
+            </div>
+            <div class="content-overlay"></div>
+        </div>
+    </div>
+</div>
+<!-- END: Page Main-->
+
+
+<script type="text/javascript">
+    $(".ajaxLoader").show();
+
+    $(document).ready(function() {
+        $(".ajaxLoader").fadeOut();
+
+        // datatable initialization
+        usersTable = $("#list-datatable").DataTable({
+            "lengthChange": true, // Hide "Show entries"
+            "dom": 'lrtp', // Hide search bar
+            "processing": true,
+            "serverSide": true,
+            // 'responsive': true,
+            'serverMethod': 'post',
+            "ajax": {
+                "url": '/user/user-group-list',
+                "type": "POST",
+                "dataFilter": function(data) {
+                    checkStatus(data);
+                    data = JSON.parse(data);
+                    console.log(data);
+                    if (data.status == false) {
+                        alert(data.msg);
+                        location.href = '/';
+                        exit(0);
+                    } else {
+                        $(".ajaxLoader").fadeOut();
+                        return JSON.stringify(data.data);
+                    }
+                }
+            },
+            "drawCallback": function(settings) {
+            },
+            "columns": [
+                {
+                    "data": "a.id",
+                    render: function(data, type, row, meta) {
+                        return row.id;
+                    }
+                },
+                {
+                    "data": "a.name",
+                    render: function(data, type, row, meta) {
+                        return row.name;
+                    }
+                },
+                {
+                    render: function(data, type, row, meta) {
+                        return row.min_deposit;
+                    }
+                },
+                {
+                    render: function(data, type, row, meta) {
+                        return row.max_deposit;
+                    }
+                },
+                {
+                    render: function(data, type, row, meta) {
+                        return row.daily_max_withdrawal_count;
+                    }
+                },
+                {
+                    "orderable": false,
+                    "searchable": false,
+                    "data": "a.id",
+                    render: function(data, type, row, meta) {
+                        return `<a href="javascript:void(0);" onclick="editItem(${row.id})"><i class="material-icons">edit</i></a>`;
+                    }
+                }
+            ],
+            'columnDefs': [{
+                className: "dt-center",
+                targets: "_all"
+            }],
+            "order": [0, 'asc'],
+        });
+
+
+    });
+
+
+    function addItem() {
+        if (confirm('Confirm to submit?')) {
+            var param = {
+                item_id: $("#item_id").val(),
+                name: $("#group_name").val(),
+                min_deposit: $("#min_deposit").val(),
+                max_deposit: $("#max_deposit").val(),
+                daily_max_withdrawal_count: $("#daily_max_withdrawal_count").val(),
+            };
+
+            $(".ajaxLoader").show();
+            $.post('/user/user-group-add', param, function(d) {
+                checkStatus(d);
+                $(".ajaxLoader").fadeOut();
+                if (d.status) {
+                    window.alert(d.msg);
+                    location.href = '/user/user-group';
+                } else {
+                    window.alert(d.msg);
+                    // location.href = '/user/user-group';
+                }
+            }, 'json');
+        }
+    }
+
+    function editItem(item_id) {
+        var param = {
+            item_id: item_id,
+        };
+
+        $(".ajaxLoader").show();
+        $.post('/user/user-group', param, function(d) {
+            // checkStatus(d);
+            console.log(d);
+            $(".ajaxLoader").fadeOut();
+            if (d.status) {
+                let data = d.data[0];
+
+                $("#item_id").val(item_id);
+                $("#group_name").val(data.name);
+                $("#min_deposit").val(data.min_deposit);
+                $("#max_deposit").val(data.max_deposit);
+                $("#daily_max_withdrawal_count").val(data.daily_max_withdrawal_count);
+
+                $('#modal1').modal("open");
+
+            } else {
+                window.alert(d.msg);
+                // location.href = '/user/user-group';
+            }
+        }, 'json');
+    }
+
+
+    function showModal() {
+        $("#item_id").val();
+        $("#group_name").val();
+        $("#min_deposit").val(0);
+        $("#max_deposit").val(0);
+        $("#daily_max_withdrawal_count").val(0);
+
+        $('#modal1').modal("open");
+    }
+
+</script>
+
+

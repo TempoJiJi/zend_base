@@ -1,0 +1,1325 @@
+[
+  {
+      "en": "China",
+      "cn": "中国",
+      "abr": "CN",
+      "logoUrl": "https://www.countryflags.io/CN/flat/64.png",
+      "code": 86
+  },
+  {
+      "en": "Afghanistan",
+      "cn": "阿富汗",
+      "abr": "AF",
+      "logoUrl": "https://www.countryflags.io/AF/flat/64.png",
+      "code": 93
+  },
+  {
+      "en": "Albania",
+      "cn": "阿尔巴尼亚",
+      "abr": "AL",
+      "logoUrl": "https://www.countryflags.io/AL/flat/64.png",
+      "code": 355
+  },
+  {
+      "en": "Algeria",
+      "cn": "阿尔及利亚",
+      "abr": "DZ",
+      "logoUrl": "https://www.countryflags.io/DZ/flat/64.png",
+      "code": 213
+  },
+  {
+      "en": "American Samoa",
+      "cn": "美国属萨摩亚",
+      "abr": "AS",
+      "logoUrl": "https://www.countryflags.io/AS/flat/64.png",
+      "code": 1684
+  },
+  {
+      "en": "AndorrA",
+      "cn": "安道尔",
+      "abr": "AD",
+      "logoUrl": "https://www.countryflags.io/AD/flat/64.png",
+      "code": 376
+  },
+  {
+      "en": "Angola",
+      "cn": "安哥拉",
+      "abr": "AO",
+      "logoUrl": "https://www.countryflags.io/AO/flat/64.png",
+      "code": 244
+  },
+  {
+      "en": "Anguilla",
+      "cn": "安圭拉",
+      "abr": "AI",
+      "logoUrl": "https://www.countryflags.io/AI/flat/64.png",
+      "code": 1264
+  },
+  {
+      "en": "Antigua and Barbuda",
+      "cn": "安提瓜和巴布达",
+      "abr": "AG",
+      "logoUrl": "https://www.countryflags.io/AG/flat/64.png",
+      "code": 1268
+  },
+  {
+      "en": "Argentina",
+      "cn": "阿根廷",
+      "abr": "AR",
+      "logoUrl": "https://www.countryflags.io/AR/flat/64.png",
+      "code": 54
+  },
+  {
+      "en": "Armenia",
+      "cn": "亚美尼亚",
+      "abr": "AM",
+      "logoUrl": "https://www.countryflags.io/AM/flat/64.png",
+      "code": 374
+  },
+  {
+      "en": "Australia",
+      "cn": "澳大利亚",
+      "abr": "AU",
+      "logoUrl": "https://www.countryflags.io/AU/flat/64.png",
+      "code": 61
+  },
+  {
+      "en": "Austria",
+      "cn": "奥地利",
+      "abr": "AT",
+      "logoUrl": "https://www.countryflags.io/AT/flat/64.png",
+      "code": 43
+  },
+  {
+      "en": "Azerbaijan",
+      "cn": "阿塞拜疆",
+      "abr": "AZ",
+      "logoUrl": "https://www.countryflags.io/AZ/flat/64.png",
+      "code": 994
+  },
+  {
+      "en": "Bahamas",
+      "cn": "巴哈马",
+      "abr": "BS",
+      "logoUrl": "https://www.countryflags.io/BS/flat/64.png",
+      "code": 1242
+  },
+  {
+      "en": "Bahrain",
+      "cn": "巴林",
+      "abr": "BH",
+      "logoUrl": "https://www.countryflags.io/BH/flat/64.png",
+      "code": 973
+  },
+  {
+      "en": "Bangladesh",
+      "cn": "孟加拉国",
+      "abr": "BD",
+      "logoUrl": "https://www.countryflags.io/BD/flat/64.png",
+      "code": 880
+  },
+  {
+      "en": "Barbados",
+      "cn": "巴巴多斯",
+      "abr": "BB",
+      "logoUrl": "https://www.countryflags.io/BB/flat/64.png",
+      "code": 1246
+  },
+  {
+      "en": "Belarus",
+      "cn": "白俄罗斯",
+      "abr": "BY",
+      "logoUrl": "https://www.countryflags.io/BY/flat/64.png",
+      "code": 375
+  },
+  {
+      "en": "Belgium",
+      "cn": "比利时",
+      "abr": "BE",
+      "logoUrl": "https://www.countryflags.io/BE/flat/64.png",
+      "code": 32
+  },
+  {
+      "en": "Belize",
+      "cn": "伯利兹",
+      "abr": "BZ",
+      "logoUrl": "https://www.countryflags.io/BZ/flat/64.png",
+      "code": 501
+  },
+  {
+      "en": "Benin",
+      "cn": "贝宁",
+      "abr": "BJ",
+      "logoUrl": "https://www.countryflags.io/BJ/flat/64.png",
+      "code": 229
+  },
+  {
+      "en": "Bermuda",
+      "cn": "百慕大",
+      "abr": "BM",
+      "logoUrl": "https://www.countryflags.io/BM/flat/64.png",
+      "code": 1441
+  },
+  {
+      "en": "Bolivia",
+      "cn": "玻利维亚",
+      "abr": "BO",
+      "logoUrl": "https://www.countryflags.io/BO/flat/64.png",
+      "code": 591
+  },
+  {
+      "en": "Bosnia and Herzegovina",
+      "cn": "波斯尼亚和黑塞哥维那",
+      "abr": "BA",
+      "logoUrl": "https://www.countryflags.io/BA/flat/64.png",
+      "code": 387
+  },
+  {
+      "en": "Botswana",
+      "cn": "博茨瓦纳",
+      "abr": "BW",
+      "logoUrl": "https://www.countryflags.io/BW/flat/64.png",
+      "code": 267
+  },
+  {
+      "en": "Brazil",
+      "cn": "巴西",
+      "abr": "BR",
+      "logoUrl": "https://www.countryflags.io/BR/flat/64.png",
+      "code": 55
+  },
+  {
+      "en": "British Indian Ocean Territory",
+      "cn": "英属印度洋领地",
+      "abr": "IO",
+      "logoUrl": "https://www.countryflags.io/IO/flat/64.png",
+      "code": 246
+  },
+  {
+      "en": "Brunei Darussalam",
+      "cn": "文莱达鲁萨兰国",
+      "abr": "BN",
+      "logoUrl": "https://www.countryflags.io/BN/flat/64.png",
+      "code": 673
+  },
+  {
+      "en": "Bulgaria",
+      "cn": "保加利亚",
+      "abr": "BG",
+      "logoUrl": "https://www.countryflags.io/BG/flat/64.png",
+      "code": 359
+  },
+  {
+      "en": "Burkina Faso",
+      "cn": "布基纳法索",
+      "abr": "BF",
+      "logoUrl": "https://www.countryflags.io/BF/flat/64.png",
+      "code": 226
+  },
+  {
+      "en": "Burundi",
+      "cn": "布隆迪",
+      "abr": "BI",
+      "logoUrl": "https://www.countryflags.io/BI/flat/64.png",
+      "code": 257
+  },
+  {
+      "en": "Cambodia",
+      "cn": "柬埔寨",
+      "abr": "KH",
+      "logoUrl": "https://www.countryflags.io/KH/flat/64.png",
+      "code": 855
+  },
+  {
+      "en": "Cameroon",
+      "cn": "喀麦隆",
+      "abr": "CM",
+      "logoUrl": "https://www.countryflags.io/CM/flat/64.png",
+      "code": 237
+  },
+  {
+      "en": "Central African Republic",
+      "cn": "中非共和国",
+      "abr": "CF",
+      "logoUrl": "https://www.countryflags.io/CF/flat/64.png",
+      "code": 236
+  },
+  {
+      "en": "Chad",
+      "cn": "乍得",
+      "abr": "TD",
+      "logoUrl": "https://www.countryflags.io/TD/flat/64.png",
+      "code": 235
+  },
+  {
+      "en": "Chile",
+      "cn": "智利",
+      "abr": "CL",
+      "logoUrl": "https://www.countryflags.io/CL/flat/64.png",
+      "code": 56
+  },
+  {
+      "en": "Colombia",
+      "cn": "哥伦比亚",
+      "abr": "CO",
+      "logoUrl": "https://www.countryflags.io/CO/flat/64.png",
+      "code": 57
+  },
+  {
+      "en": "Congo",
+      "cn": "刚果",
+      "abr": "CG",
+      "logoUrl": "https://www.countryflags.io/CG/flat/64.png",
+      "code": 242
+  },
+  {
+      "en": "Congo, The Democratic Republic of the",
+      "cn": "刚果民主共和国",
+      "abr": "CD",
+      "logoUrl": "https://www.countryflags.io/CD/flat/64.png",
+      "code": 243
+  },
+  {
+      "en": "Cook Islands",
+      "cn": "库克群岛",
+      "abr": "CK",
+      "logoUrl": "https://www.countryflags.io/CK/flat/64.png",
+      "code": 682
+  },
+  {
+      "en": "Costa Rica",
+      "cn": "哥斯达黎加",
+      "abr": "CR",
+      "logoUrl": "https://www.countryflags.io/CR/flat/64.png",
+      "code": 506
+  },
+  {
+      "en": "Cote D\"Ivoire",
+      "cn": "科特迪瓦",
+      "abr": "CI",
+      "logoUrl": "https://www.countryflags.io/CI/flat/64.png",
+      "code": 225
+  },
+  {
+      "en": "Croatia",
+      "cn": "克罗地亚",
+      "abr": "HR",
+      "logoUrl": "https://www.countryflags.io/HR/flat/64.png",
+      "code": 385
+  },
+  {
+      "en": "Cuba",
+      "cn": "古巴",
+      "abr": "CU",
+      "logoUrl": "https://www.countryflags.io/CU/flat/64.png",
+      "code": 53
+  },
+  {
+      "en": "Cyprus",
+      "cn": "塞浦路斯",
+      "abr": "CY",
+      "logoUrl": "https://www.countryflags.io/CY/flat/64.png",
+      "code": 357
+  },
+  {
+      "en": "Czech Republic",
+      "cn": "捷克共和国",
+      "abr": "CZ",
+      "logoUrl": "https://www.countryflags.io/CZ/flat/64.png",
+      "code": 420
+  },
+  {
+      "en": "Denmark",
+      "cn": "丹麦",
+      "abr": "DK",
+      "logoUrl": "https://www.countryflags.io/DK/flat/64.png",
+      "code": 45
+  },
+  {
+      "en": "Djibouti",
+      "cn": "吉布提",
+      "abr": "DJ",
+      "logoUrl": "https://www.countryflags.io/DJ/flat/64.png",
+      "code": 253
+  },
+  {
+      "en": "Dominican Republic",
+      "cn": "多明尼加共和国",
+      "abr": "DO",
+      "logoUrl": "https://www.countryflags.io/DO/flat/64.png",
+      "code": 1890
+  },
+  {
+      "en": "Ecuador",
+      "cn": "厄瓜多尔",
+      "abr": "EC",
+      "logoUrl": "https://www.countryflags.io/EC/flat/64.png",
+      "code": 593
+  },
+  {
+      "en": "El Salvador",
+      "cn": "萨尔瓦多",
+      "abr": "SV",
+      "logoUrl": "https://www.countryflags.io/SV/flat/64.png",
+      "code": 503
+  },
+  {
+      "en": "Eritrea",
+      "cn": "厄立特里亚",
+      "abr": "ER",
+      "logoUrl": "https://www.countryflags.io/ER/flat/64.png",
+      "code": 291
+  },
+  {
+      "en": "Estonia",
+      "cn": "爱沙尼亚",
+      "abr": "EE",
+      "logoUrl": "https://www.countryflags.io/EE/flat/64.png",
+      "code": 372
+  },
+  {
+      "en": "Ethiopia",
+      "cn": "埃塞俄比亚",
+      "abr": "ET",
+      "logoUrl": "https://www.countryflags.io/ET/flat/64.png",
+      "code": 251
+  },
+  {
+      "en": "Fiji",
+      "cn": "斐济",
+      "abr": "FJ",
+      "logoUrl": "https://www.countryflags.io/FJ/flat/64.png",
+      "code": 679
+  },
+  {
+      "en": "Finland",
+      "cn": "芬兰",
+      "abr": "FI",
+      "logoUrl": "https://www.countryflags.io/FI/flat/64.png",
+      "code": 358
+  },
+  {
+      "en": "France",
+      "cn": "法国",
+      "abr": "FR",
+      "logoUrl": "https://www.countryflags.io/FR/flat/64.png",
+      "code": 33
+  },
+  {
+      "en": "French Guiana",
+      "cn": "法属圭亚那",
+      "abr": "GF",
+      "logoUrl": "https://www.countryflags.io/GF/flat/64.png",
+      "code": 594
+  },
+  {
+      "en": "French Polynesia",
+      "cn": "法属波利尼西亚",
+      "abr": "PF",
+      "logoUrl": "https://www.countryflags.io/PF/flat/64.png",
+      "code": 689
+  },
+  {
+      "en": "Gabon",
+      "cn": "加蓬",
+      "abr": "GA",
+      "logoUrl": "https://www.countryflags.io/GA/flat/64.png",
+      "code": 241
+  },
+  {
+      "en": "Gambia",
+      "cn": "冈比亚",
+      "abr": "GM",
+      "logoUrl": "https://www.countryflags.io/GM/flat/64.png",
+      "code": 220
+  },
+  {
+      "en": "Georgia",
+      "cn": "格鲁吉亚",
+      "abr": "GE",
+      "logoUrl": "https://www.countryflags.io/GE/flat/64.png",
+      "code": 995
+  },
+  {
+      "en": "Germany",
+      "cn": "德国",
+      "abr": "DE",
+      "logoUrl": "https://www.countryflags.io/DE/flat/64.png",
+      "code": 49
+  },
+  {
+      "en": "Gibraltar",
+      "cn": "直布罗陀",
+      "abr": "GI",
+      "logoUrl": "https://www.countryflags.io/GI/flat/64.png",
+      "code": 350
+  },
+  {
+      "en": "Greece",
+      "cn": "希腊",
+      "abr": "GR",
+      "logoUrl": "https://www.countryflags.io/GR/flat/64.png",
+      "code": 30
+  },
+  {
+      "en": "Guam",
+      "cn": "关岛",
+      "abr": "GU",
+      "logoUrl": "https://www.countryflags.io/GU/flat/64.png",
+      "code": 1671
+  },
+  {
+      "en": "Guatemala",
+      "cn": "危地马拉",
+      "abr": "GT",
+      "logoUrl": "https://www.countryflags.io/GT/flat/64.png",
+      "code": 502
+  },
+  {
+      "en": "Guinea",
+      "cn": "几内亚",
+      "abr": "GN",
+      "logoUrl": "https://www.countryflags.io/GN/flat/64.png",
+      "code": 224
+  },
+  {
+      "en": "Guyana",
+      "cn": "圭亚那",
+      "abr": "GY",
+      "logoUrl": "https://www.countryflags.io/GY/flat/64.png",
+      "code": 592
+  },
+  {
+      "en": "Haiti",
+      "cn": "海地",
+      "abr": "HT",
+      "logoUrl": "https://www.countryflags.io/HT/flat/64.png",
+      "code": 509
+  },
+  {
+      "en": "Honduras",
+      "cn": "洪都拉斯",
+      "abr": "HN",
+      "logoUrl": "https://www.countryflags.io/HN/flat/64.png",
+      "code": 504
+  },
+  {
+      "en": "Hong Kong",
+      "cn": "香港",
+      "abr": "HK",
+      "logoUrl": "https://www.countryflags.io/HK/flat/64.png",
+      "code": 852
+  },
+  {
+      "en": "Hungary",
+      "cn": "匈牙利",
+      "abr": "HU",
+      "logoUrl": "https://www.countryflags.io/HU/flat/64.png",
+      "code": 36
+  },
+  {
+      "en": "Iceland",
+      "cn": "冰岛",
+      "abr": "IS",
+      "logoUrl": "https://www.countryflags.io/IS/flat/64.png",
+      "code": 354
+  },
+  {
+      "en": "India",
+      "cn": "印度",
+      "abr": "IN",
+      "logoUrl": "https://www.countryflags.io/IN/flat/64.png",
+      "code": 91
+  },
+  {
+      "en": "Indonesia",
+      "cn": "印尼",
+      "abr": "ID",
+      "logoUrl": "https://www.countryflags.io/ID/flat/64.png",
+      "code": 62
+  },
+  {
+      "en": "Iran, Islamic Republic Of",
+      "cn": "伊朗伊斯兰共和国",
+      "abr": "IR",
+      "logoUrl": "https://www.countryflags.io/IR/flat/64.png",
+      "code": 98
+  },
+  {
+      "en": "Iraq",
+      "cn": "伊拉克",
+      "abr": "IQ",
+      "logoUrl": "https://www.countryflags.io/IQ/flat/64.png",
+      "code": 964
+  },
+  {
+      "en": "Ireland",
+      "cn": "爱尔兰",
+      "abr": "IE",
+      "logoUrl": "https://www.countryflags.io/IE/flat/64.png",
+      "code": 353
+  },
+  {
+      "en": "Israel",
+      "cn": "以色列",
+      "abr": "IL",
+      "logoUrl": "https://www.countryflags.io/IL/flat/64.png",
+      "code": 972
+  },
+  {
+      "en": "Italy",
+      "cn": "意大利",
+      "abr": "IT",
+      "logoUrl": "https://www.countryflags.io/IT/flat/64.png",
+      "code": 39
+  },
+  {
+      "en": "Jamaica",
+      "cn": "牙买加",
+      "abr": "JM",
+      "logoUrl": "https://www.countryflags.io/JM/flat/64.png",
+      "code": 1876
+  },
+  {
+      "en": "Japan",
+      "cn": "日本",
+      "abr": "JP",
+      "logoUrl": "https://www.countryflags.io/JP/flat/64.png",
+      "code": 81
+  },
+  {
+      "en": "Jordan",
+      "cn": "约旦",
+      "abr": "JO",
+      "logoUrl": "https://www.countryflags.io/JO/flat/64.png",
+      "code": 962
+  },
+  {
+      "en": "Kazakhstan",
+      "cn": "哈萨克斯坦",
+      "abr": "KZ",
+      "logoUrl": "https://www.countryflags.io/KZ/flat/64.png",
+      "code": 327
+  },
+  {
+      "en": "Kenya",
+      "cn": "肯尼亚",
+      "abr": "KE",
+      "logoUrl": "https://www.countryflags.io/KE/flat/64.png",
+      "code": 254
+  },
+  {
+      "en": "Kiribati",
+      "cn": "基里巴斯",
+      "abr": "KI",
+      "logoUrl": "https://www.countryflags.io/KI/flat/64.png",
+      "code": 686
+  },
+  {
+      "en": "Korea, Democratic People\"S Republic of",
+      "cn": "北朝鲜民主共和国",
+      "abr": "KP",
+      "logoUrl": "https://www.countryflags.io/KP/flat/64.png",
+      "code": 850
+  },
+  {
+      "en": "Korea, Republic of",
+      "cn": "大韩民国",
+      "abr": "KR",
+      "logoUrl": "https://www.countryflags.io/KR/flat/64.png",
+      "code": 82
+  },
+  {
+      "en": "Kuwait",
+      "cn": "科威特",
+      "abr": "KW",
+      "logoUrl": "https://www.countryflags.io/KW/flat/64.png",
+      "code": 965
+  },
+  {
+      "en": "Kyrgyzstan",
+      "cn": "吉尔吉斯斯坦",
+      "abr": "KG",
+      "logoUrl": "https://www.countryflags.io/KG/flat/64.png",
+      "code": 996
+  },
+  {
+      "en": "Lao People\"S Democratic Republic",
+      "cn": "老挝人民民主共和国",
+      "abr": "LA",
+      "logoUrl": "https://www.countryflags.io/LA/flat/64.png",
+      "code": 856
+  },
+  {
+      "en": "Latvia",
+      "cn": "拉脱维亚",
+      "abr": "LV",
+      "logoUrl": "https://www.countryflags.io/LV/flat/64.png",
+      "code": 371
+  },
+  {
+      "en": "Lebanon",
+      "cn": "黎巴嫩",
+      "abr": "LB",
+      "logoUrl": "https://www.countryflags.io/LB/flat/64.png",
+      "code": 961
+  },
+  {
+      "en": "Lesotho",
+      "cn": "莱索托",
+      "abr": "LS",
+      "logoUrl": "https://www.countryflags.io/LS/flat/64.png",
+      "code": 266
+  },
+  {
+      "en": "Liberia",
+      "cn": "利比里亚",
+      "abr": "LR",
+      "logoUrl": "https://www.countryflags.io/LR/flat/64.png",
+      "code": 231
+  },
+  {
+      "en": "Libyan Arab Jamahiriya",
+      "cn": "阿拉伯利比亚民众国",
+      "abr": "LY",
+      "logoUrl": "https://www.countryflags.io/LY/flat/64.png",
+      "code": 218
+  },
+  {
+      "en": "Liechtenstein",
+      "cn": "列支敦士登",
+      "abr": "LI",
+      "logoUrl": "https://www.countryflags.io/LI/flat/64.png",
+      "code": 423
+  },
+  {
+      "en": "Lithuania",
+      "cn": "立陶宛",
+      "abr": "LT",
+      "logoUrl": "https://www.countryflags.io/LT/flat/64.png",
+      "code": 370
+  },
+  {
+      "en": "Luxembourg",
+      "cn": "卢森堡",
+      "abr": "LU",
+      "logoUrl": "https://www.countryflags.io/LU/flat/64.png",
+      "code": 352
+  },
+  {
+      "en": "Macao",
+      "cn": "澳门",
+      "abr": "MO",
+      "logoUrl": "https://www.countryflags.io/MO/flat/64.png",
+      "code": 853
+  },
+  {
+      "en": "Macedonia, The Former Yugoslav Republic of",
+      "cn": "马其顿,前南斯拉夫共和国",
+      "abr": "MK",
+      "logoUrl": "https://www.countryflags.io/MK/flat/64.png",
+      "code": 389
+  },
+  {
+      "en": "Madagascar",
+      "cn": "马达加斯加",
+      "abr": "MG",
+      "logoUrl": "https://www.countryflags.io/MG/flat/64.png",
+      "code": 261
+  },
+  {
+      "en": "Malawi",
+      "cn": "马拉维",
+      "abr": "MW",
+      "logoUrl": "https://www.countryflags.io/MW/flat/64.png",
+      "code": 265
+  },
+  {
+      "en": "Malaysia",
+      "cn": "马来西亚",
+      "abr": "MY",
+      "logoUrl": "https://www.countryflags.io/MY/flat/64.png",
+      "code": 60
+  },
+  {
+      "en": "Maldives",
+      "cn": "马尔代夫",
+      "abr": "MV",
+      "logoUrl": "https://www.countryflags.io/MV/flat/64.png",
+      "code": 960
+  },
+  {
+      "en": "Mali",
+      "cn": "马里",
+      "abr": "ML",
+      "logoUrl": "https://www.countryflags.io/ML/flat/64.png",
+      "code": 223
+  },
+  {
+      "en": "Malta",
+      "cn": "马耳他",
+      "abr": "MT",
+      "logoUrl": "https://www.countryflags.io/MT/flat/64.png",
+      "code": 356
+  },
+  {
+      "en": "Mauritius",
+      "cn": "毛里求斯",
+      "abr": "MU",
+      "logoUrl": "https://www.countryflags.io/MU/flat/64.png",
+      "code": 230
+  },
+  {
+      "en": "Mexico",
+      "cn": "墨西哥",
+      "abr": "MX",
+      "logoUrl": "https://www.countryflags.io/MX/flat/64.png",
+      "code": 52
+  },
+  {
+      "en": "Moldova, Republic of",
+      "cn": "摩尔多瓦共和国",
+      "abr": "MD",
+      "logoUrl": "https://www.countryflags.io/MD/flat/64.png",
+      "code": 373
+  },
+  {
+      "en": "Monaco",
+      "cn": "摩纳哥",
+      "abr": "MC",
+      "logoUrl": "https://www.countryflags.io/MC/flat/64.png",
+      "code": 377
+  },
+  {
+      "en": "Mongolia",
+      "cn": "蒙古",
+      "abr": "MN",
+      "logoUrl": "https://www.countryflags.io/MN/flat/64.png",
+      "code": 976
+  },
+  {
+      "en": "Montserrat",
+      "cn": "蒙特塞拉特",
+      "abr": "MS",
+      "logoUrl": "https://www.countryflags.io/MS/flat/64.png",
+      "code": 1664
+  },
+  {
+      "en": "Morocco",
+      "cn": "摩洛哥",
+      "abr": "MA",
+      "logoUrl": "https://www.countryflags.io/MA/flat/64.png",
+      "code": 212
+  },
+  {
+      "en": "Mozambique",
+      "cn": "莫桑比克",
+      "abr": "MZ",
+      "logoUrl": "https://www.countryflags.io/MZ/flat/64.png",
+      "code": 258
+  },
+  {
+      "en": "Myanmar",
+      "cn": "缅甸",
+      "abr": "MM",
+      "logoUrl": "https://www.countryflags.io/MM/flat/64.png",
+      "code": 95
+  },
+  {
+      "en": "Namibia",
+      "cn": "纳米比亚",
+      "abr": "NA",
+      "logoUrl": "https://www.countryflags.io/NA/flat/64.png",
+      "code": 264
+  },
+  {
+      "en": "Nauru",
+      "cn": "瑙鲁",
+      "abr": "NR",
+      "logoUrl": "https://www.countryflags.io/NR/flat/64.png",
+      "code": 674
+  },
+  {
+      "en": "Nepal",
+      "cn": "尼泊尔",
+      "abr": "NP",
+      "logoUrl": "https://www.countryflags.io/NP/flat/64.png",
+      "code": 977
+  },
+  {
+      "en": "Netherlands",
+      "cn": "荷兰",
+      "abr": "NL",
+      "logoUrl": "https://www.countryflags.io/NL/flat/64.png",
+      "code": 31
+  },
+  {
+      "en": "New Zealand",
+      "cn": "新西兰",
+      "abr": "NZ",
+      "logoUrl": "https://www.countryflags.io/NZ/flat/64.png",
+      "code": 64
+  },
+  {
+      "en": "Nicaragua",
+      "cn": "尼加拉瓜",
+      "abr": "NI",
+      "logoUrl": "https://www.countryflags.io/NI/flat/64.png",
+      "code": 505
+  },
+  {
+      "en": "Niger",
+      "cn": "尼日尔",
+      "abr": "NE",
+      "logoUrl": "https://www.countryflags.io/NE/flat/64.png",
+      "code": 227
+  },
+  {
+      "en": "Nigeria",
+      "cn": "尼日利亚",
+      "abr": "NG",
+      "logoUrl": "https://www.countryflags.io/NG/flat/64.png",
+      "code": 234
+  },
+  {
+      "en": "Niue",
+      "cn": "纽埃岛",
+      "abr": "NU",
+      "logoUrl": "https://www.countryflags.io/NU/flat/64.png",
+      "code": 683
+  },
+  {
+      "en": "Norfolk Island",
+      "cn": "诺福克岛",
+      "abr": "NF",
+      "logoUrl": "https://www.countryflags.io/NF/flat/64.png",
+      "code": 672
+  },
+  {
+      "en": "Norway",
+      "cn": "挪威",
+      "abr": "NO",
+      "logoUrl": "https://www.countryflags.io/NO/flat/64.png",
+      "code": 47
+  },
+  {
+      "en": "Oman",
+      "cn": "阿曼",
+      "abr": "OM",
+      "logoUrl": "https://www.countryflags.io/OM/flat/64.png",
+      "code": 968
+  },
+  {
+      "en": "Pakistan",
+      "cn": "巴基斯坦",
+      "abr": "PK",
+      "logoUrl": "https://www.countryflags.io/PK/flat/64.png",
+      "code": 92
+  },
+  {
+      "en": "Panama",
+      "cn": "巴拿马",
+      "abr": "PA",
+      "logoUrl": "https://www.countryflags.io/PA/flat/64.png",
+      "code": 507
+  },
+  {
+      "en": "Papua New Guinea",
+      "cn": "巴布亚新几内亚",
+      "abr": "PG",
+      "logoUrl": "https://www.countryflags.io/PG/flat/64.png",
+      "code": 675
+  },
+  {
+      "en": "Paraguay",
+      "cn": "巴拉圭",
+      "abr": "PY",
+      "logoUrl": "https://www.countryflags.io/PY/flat/64.png",
+      "code": 595
+  },
+  {
+      "en": "Peru",
+      "cn": "秘鲁",
+      "abr": "PE",
+      "logoUrl": "https://www.countryflags.io/PE/flat/64.png",
+      "code": 51
+  },
+  {
+      "en": "Philippines",
+      "cn": "菲律宾",
+      "abr": "PH",
+      "logoUrl": "https://www.countryflags.io/PH/flat/64.png",
+      "code": 63
+  },
+  {
+      "en": "Poland",
+      "cn": "波兰",
+      "abr": "PL",
+      "logoUrl": "https://www.countryflags.io/PL/flat/64.png",
+      "code": 48
+  },
+  {
+      "en": "Portugal",
+      "cn": "葡萄牙",
+      "abr": "PT",
+      "logoUrl": "https://www.countryflags.io/PT/flat/64.png",
+      "code": 351
+  },
+  {
+      "en": "Puerto Rico",
+      "cn": "波多黎各",
+      "abr": "PR",
+      "logoUrl": "https://www.countryflags.io/PR/flat/64.png",
+      "code": 1787
+  },
+  {
+      "en": "Qatar",
+      "cn": "卡塔尔",
+      "abr": "QA",
+      "logoUrl": "https://www.countryflags.io/QA/flat/64.png",
+      "code": 974
+  },
+  {
+      "en": "Romania",
+      "cn": "罗马尼亚",
+      "abr": "RO",
+      "logoUrl": "https://www.countryflags.io/RO/flat/64.png",
+      "code": 40
+  },
+  {
+      "en": "Russian Federation",
+      "cn": "俄罗斯联邦",
+      "abr": "RU",
+      "logoUrl": "https://www.countryflags.io/RU/flat/64.png",
+      "code": 7
+  },
+  {
+      "en": "RWANDA",
+      "cn": "卢旺达",
+      "abr": "RW",
+      "logoUrl": "https://www.countryflags.io/RW/flat/64.png",
+      "code": 250
+  },
+  {
+      "en": "Saint Lucia",
+      "cn": "圣卢西亚",
+      "abr": "LC",
+      "logoUrl": "https://www.countryflags.io/LC/flat/64.png",
+      "code": 1758
+  },
+  {
+      "en": "Saint Pierre and Miquelon",
+      "cn": "圣皮埃尔和密克隆",
+      "abr": "PM",
+      "logoUrl": "https://www.countryflags.io/PM/flat/64.png",
+      "code": 508
+  },
+  {
+      "en": "Saint Vincent and the Grenadines",
+      "cn": "圣文森特和格林纳丁斯",
+      "abr": "VC",
+      "logoUrl": "https://www.countryflags.io/VC/flat/64.png",
+      "code": 1784
+  },
+  {
+      "en": "San Marino",
+      "cn": "圣马力诺",
+      "abr": "SM",
+      "logoUrl": "https://www.countryflags.io/SM/flat/64.png",
+      "code": 378
+  },
+  {
+      "en": "Sao Tome and Principe",
+      "cn": "圣多美和普林西比",
+      "abr": "ST",
+      "logoUrl": "https://www.countryflags.io/ST/flat/64.png",
+      "code": 239
+  },
+  {
+      "en": "Saudi Arabia",
+      "cn": "沙特阿拉伯",
+      "abr": "SA",
+      "logoUrl": "https://www.countryflags.io/SA/flat/64.png",
+      "code": 966
+  },
+  {
+      "en": "Senegal",
+      "cn": "塞内加尔",
+      "abr": "SN",
+      "logoUrl": "https://www.countryflags.io/SN/flat/64.png",
+      "code": 221
+  },
+  {
+      "en": "Seychelles",
+      "cn": "塞舌尔",
+      "abr": "SC",
+      "logoUrl": "https://www.countryflags.io/SC/flat/64.png",
+      "code": 248
+  },
+  {
+      "en": "Sierra Leone",
+      "cn": "塞拉利昂",
+      "abr": "SL",
+      "logoUrl": "https://www.countryflags.io/SL/flat/64.png",
+      "code": 232
+  },
+  {
+      "en": "Singapore",
+      "cn": "新加坡",
+      "abr": "SG",
+      "logoUrl": "https://www.countryflags.io/SG/flat/64.png",
+      "code": 65
+  },
+  {
+      "en": "Slovakia",
+      "cn": "斯洛伐克",
+      "abr": "SK",
+      "logoUrl": "https://www.countryflags.io/SK/flat/64.png",
+      "code": 421
+  },
+  {
+      "en": "Slovenia",
+      "cn": "斯洛文尼亚",
+      "abr": "SI",
+      "logoUrl": "https://www.countryflags.io/SI/flat/64.png",
+      "code": 386
+  },
+  {
+      "en": "Solomon Islands",
+      "cn": "所罗门群岛",
+      "abr": "SB",
+      "logoUrl": "https://www.countryflags.io/SB/flat/64.png",
+      "code": 677
+  },
+  {
+      "en": "Somalia",
+      "cn": "索马里",
+      "abr": "SO",
+      "logoUrl": "https://www.countryflags.io/SO/flat/64.png",
+      "code": 252
+  },
+  {
+      "en": "Spain",
+      "cn": "西班牙",
+      "abr": "ES",
+      "logoUrl": "https://www.countryflags.io/ES/flat/64.png",
+      "code": 34
+  },
+  {
+      "en": "Sri Lanka",
+      "cn": "斯里兰卡",
+      "abr": "LK",
+      "logoUrl": "https://www.countryflags.io/LK/flat/64.png",
+      "code": 94
+  },
+  {
+      "en": "Sudan",
+      "cn": "苏丹",
+      "abr": "SD",
+      "logoUrl": "https://www.countryflags.io/SD/flat/64.png",
+      "code": 249
+  },
+  {
+      "en": "Suriname",
+      "cn": "苏里南",
+      "abr": "SR",
+      "logoUrl": "https://www.countryflags.io/SR/flat/64.png",
+      "code": 597
+  },
+  {
+      "en": "Swaziland",
+      "cn": "斯威士兰",
+      "abr": "SZ",
+      "logoUrl": "https://www.countryflags.io/SZ/flat/64.png",
+      "code": 268
+  },
+  {
+      "en": "Sweden",
+      "cn": "瑞典",
+      "abr": "SE",
+      "logoUrl": "https://www.countryflags.io/SE/flat/64.png",
+      "code": 46
+  },
+  {
+      "en": "Switzerland",
+      "cn": "瑞士",
+      "abr": "CH",
+      "logoUrl": "https://www.countryflags.io/CH/flat/64.png",
+      "code": 41
+  },
+  {
+      "en": "Syrian Arab Republic",
+      "cn": "阿拉伯叙利亚共和国",
+      "abr": "SY",
+      "logoUrl": "https://www.countryflags.io/SY/flat/64.png",
+      "code": 963
+  },
+  {
+      "en": "Taiwan, Province of China",
+      "cn": "中国台湾省",
+      "abr": "TW",
+      "logoUrl": "https://www.countryflags.io/TW/flat/64.png",
+      "code": 886
+  },
+  {
+      "en": "Tajikistan",
+      "cn": "塔吉克斯坦",
+      "abr": "TJ",
+      "logoUrl": "https://www.countryflags.io/TJ/flat/64.png",
+      "code": 992
+  },
+  {
+      "en": "Tanzania, United Republic of",
+      "cn": "坦桑尼亚联合共和国",
+      "abr": "TZ",
+      "logoUrl": "https://www.countryflags.io/TZ/flat/64.png",
+      "code": 255
+  },
+  {
+      "en": "Thailand",
+      "cn": "泰国",
+      "abr": "TH",
+      "logoUrl": "https://www.countryflags.io/TH/flat/64.png",
+      "code": 66
+  },
+  {
+      "en": "Togo",
+      "cn": "多哥",
+      "abr": "TG",
+      "logoUrl": "https://www.countryflags.io/TG/flat/64.png",
+      "code": 228
+  },
+  {
+      "en": "Tokelau",
+      "cn": "托克劳",
+      "abr": "TK",
+      "logoUrl": "https://www.countryflags.io/TK/flat/64.png",
+      "code": 690
+  },
+  {
+      "en": "Tonga",
+      "cn": "汤加",
+      "abr": "TO",
+      "logoUrl": "https://www.countryflags.io/TO/flat/64.png",
+      "code": 676
+  },
+  {
+      "en": "Trinidad and Tobago",
+      "cn": "特立尼达和多巴哥",
+      "abr": "TT",
+      "logoUrl": "https://www.countryflags.io/TT/flat/64.png",
+      "code": 1809
+  },
+  {
+      "en": "Tunisia",
+      "cn": "突尼斯",
+      "abr": "TN",
+      "logoUrl": "https://www.countryflags.io/TN/flat/64.png",
+      "code": 216
+  },
+  {
+      "en": "Turkey",
+      "cn": "土耳其",
+      "abr": "TR",
+      "logoUrl": "https://www.countryflags.io/TR/flat/64.png",
+      "code": 90
+  },
+  {
+      "en": "Turkmenistan",
+      "cn": "土库曼斯坦",
+      "abr": "TM",
+      "logoUrl": "https://www.countryflags.io/TM/flat/64.png",
+      "code": 993
+  },
+  {
+      "en": "Uganda",
+      "cn": "乌干达",
+      "abr": "UG",
+      "logoUrl": "https://www.countryflags.io/UG/flat/64.png",
+      "code": 256
+  },
+  {
+      "en": "Ukraine",
+      "cn": "乌克兰",
+      "abr": "UA",
+      "logoUrl": "https://www.countryflags.io/UA/flat/64.png",
+      "code": 380
+  },
+  {
+      "en": "United Arab Emirates",
+      "cn": "阿联酋",
+      "abr": "AE",
+      "logoUrl": "https://www.countryflags.io/AE/flat/64.png",
+      "code": 971
+  },
+  {
+      "en": "United Kingdom",
+      "cn": "英国",
+      "abr": "GB",
+      "logoUrl": "https://www.countryflags.io/GB/flat/64.png",
+      "code": 44
+  },
+  {
+      "en": "United States",
+      "cn": "美国",
+      "abr": "US",
+      "logoUrl": "https://www.countryflags.io/US/flat/64.png",
+      "code": 1
+  },
+  {
+      "en": "Uruguay",
+      "cn": "乌拉圭",
+      "abr": "UY",
+      "logoUrl": "https://www.countryflags.io/UY/flat/64.png",
+      "code": 598
+  },
+  {
+      "en": "Uzbekistan",
+      "cn": "乌兹别克斯坦",
+      "abr": "UZ",
+      "logoUrl": "https://www.countryflags.io/UZ/flat/64.png",
+      "code": 233
+  },
+  {
+      "en": "Venezuela",
+      "cn": "委内瑞拉",
+      "abr": "VE",
+      "logoUrl": "https://www.countryflags.io/VE/flat/64.png",
+      "code": 58
+  },
+  {
+      "en": "Viet Nam",
+      "cn": "越南",
+      "abr": "VN",
+      "logoUrl": "https://www.countryflags.io/VN/flat/64.png",
+      "code": 84
+  },
+  {
+      "en": "Wallis and Futuna",
+      "cn": "瓦利斯和富图纳",
+      "abr": "WF",
+      "logoUrl": "https://www.countryflags.io/WF/flat/64.png",
+      "code": 681
+  },
+  {
+      "en": "Yemen",
+      "cn": "也门的",
+      "abr": "YE",
+      "logoUrl": "https://www.countryflags.io/YE/flat/64.png",
+      "code": 967
+  },
+  {
+      "en": "Zambia",
+      "cn": "赞比亚",
+      "abr": "ZM",
+      "logoUrl": "https://www.countryflags.io/ZM/flat/64.png",
+      "code": 260
+  },
+  {
+      "en": "Zimbabwe",
+      "cn": "津巴布韦",
+      "abr": "ZW",
+      "logoUrl": "https://www.countryflags.io/ZW/flat/64.png",
+      "code": 263
+  }
+]

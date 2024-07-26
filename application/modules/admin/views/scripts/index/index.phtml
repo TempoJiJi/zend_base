@@ -1,0 +1,157 @@
+<!-- custom date range picker js, class name: search_date_range -->
+<script type="text/javascript" src="<?php echo C_GLOBAL_JS ?>date-range.js"></script>
+
+<!-- BEGIN: Page Main-->
+<div id="main">
+	<div class="row">
+		<div id="breadcrumbs-wrapper"
+			data-image="<?php echo C_GLOBAL_APP_ASSET; ?>images/gallery/breadcrumb-bg.jpg">
+			<!-- Search for small screen-->
+			<div class="container">
+				<div class="row">
+					<div class="col s12 m6 l6">
+						<h5 class="breadcrumbs-title mt-0 mb-0"><span>Dashboard</span></h5>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="col s12">
+			<div class="container">
+				<!-- users list start -->
+				<section class="users-list-wrapper section">
+                    <div class="users-list-filter">
+                        <div class="card-panel">
+                            <div class="row">
+                                <div class="col s12 m6 l3">
+                                    <label for="search_date_range">Search Date</label>
+                                    <div class="input-field">
+                                        <input type="text" name="dates" id="search_date_range">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <a onclick="loadDashboard()" class="btn indigo waves-effect waves-light mr-2">Search</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+					<div>
+                        <div class="row">
+                            <div class="col l6 s12">
+                                <div class="card light-blue">
+                                    <div class="card-content white-text valign-wrapper">
+                                        <div class="col l6"><i class="material-icons">account_circle</i><span class="card-title mb-0">Total Member</span></div>
+                                        <div class="col l6"><h4 id="total_user" class="card_value mt-0 mb-0 right text-primary"></h4></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col l6 s12">
+                                <div class="card yellow darken-4">
+                                    <div class="card-content white-text valign-wrapper">
+                                        <div class="col l6"><i class="material-icons">account_circle</i><span class="card-title mb-0">New Register Member</span></div>
+                                        <div class="col l6"><h4 id="total_user_filter" class="card_value mt-0 mb-0 right text-primary"></h4></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col l6 s12">
+                                <div class="card gradient-45deg-red-pink gradient-shadow">
+                                    <div class="card-content white-text valign-wrapper">
+                                        <div class="col l6"><i class="material-icons">attach_money</i><span class="card-title mb-0">Total Deposit</span></div>
+                                        <div class="col l6"><h4 id="total_deposit" class="card_value mt-0 mb-0 right text-primary"></h4></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col l6 s12">
+                                <div class="card yellow darken-2">
+                                    <div class="card-content white-text valign-wrapper">
+                                        <div class="col l6"><i class="material-icons">attach_money</i><span class="card-title mb-0">Total Withdrawal</span></div>
+                                        <div class="col l6"><h4 id="total_withdrawal" class="card_value mt-0 mb-0 right text-primary"></h4></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col l6 s12">
+                                <div class="card purple gradient-shadow">
+                                    <div class="card-content white-text valign-wrapper">
+                                        <div class="col l6"><i class="material-icons">attach_money</i><span class="card-title mb-0">Total Rebate</span></div>
+                                        <div class="col l6"><h4 id="total_rebate" class="card_value mt-0 mb-0 right text-primary"></h4></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col l6 s12">
+                                <div class="card green darken-2">
+                                    <div class="card-content white-text valign-wrapper">
+                                        <div class="col l6"><i class="material-icons">attach_money</i><span class="card-title mb-0">Total Cashback</span></div>
+                                        <div class="col l6"><h4 id="total_cashback" class="card_value mt-0 mb-0 right text-primary"></h4></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+					</div>
+				</section>
+				<!-- users list ends -->
+			</div>
+			<div class="content-overlay"></div>
+		</div>
+	</div>
+</div>
+<!-- END: Page Main-->
+
+<script type="text/javascript">
+	$(".ajaxLoader").show();
+
+    $(document).ready(async function() {
+		await loadDashboard();
+        $(".ajaxLoader").fadeOut();
+
+        $('#search_date_range').on("change", function() {
+            loadDashboard();
+        });
+	});
+
+	function loadDashboard() {
+        $(".ajaxLoader").show();
+
+        // set default zero
+        $('#card_value').html(0);
+
+        return new Promise((resolve, reject) => {
+            var param = {
+                start_date: _start_date,
+                end_date: _end_date
+            };
+
+            $.post('/index/dashboard', param, function(d) {
+                checkStatus(d);
+                console.log(d);
+
+                if (d.status) {
+
+                    let data = d.data;
+                    $('#total_user').html(data.total_user.total_register);
+                    $('#total_user_filter').html(data.total_user_filter.total_register);
+
+                    $('#total_deposit').html(data.deposit.total_amount);
+                    $('#total_withdrawal').html(data.withdrawal.total_amount);
+
+                    $('#total_rebate').html(data.rebate.total_amount);
+                    $('#total_cashback').html(data.cashback.total_amount);
+
+                    $(".ajaxLoader").fadeOut();
+                    return resolve();
+                } else {
+                    window.alert(d.msg);
+                    location.href = '/news-list';
+                }
+            }, 'json');
+        });
+	}
+
+</script>
+

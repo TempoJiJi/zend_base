@@ -1,0 +1,258 @@
+<!-- BEGIN: Page Main-->
+<div id="main">
+    <div class="row">
+        <div id="breadcrumbs-wrapper"
+            data-image="<?php echo C_GLOBAL_APP_ASSET; ?>images/gallery/breadcrumb-bg.jpg">
+            <!-- Search for small screen-->
+            <div class="container">
+                <div class="row">
+                    <div class="col s12 m6 l6">
+                        <h5 class="breadcrumbs-title mt-0 mb-0"><span>Bank List</span></h5>
+                    </div>
+                    <div class="col s12 m6 l6 right-align-md">
+                        <ol class="breadcrumbs mb-0">
+                            <li class="breadcrumb-item"><a href="index">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">Bank List
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12">
+            <div class="container">
+                <!-- users list start -->
+                <section class="users-list-wrapper section">
+                    <div class="users-list-filter">
+                        <div class="card-panel">
+                            <div class="row">
+                                <div class="col s12 m4 l3">
+                                    <label for="search_name">Bank Name</label>
+                                    <div class="input-field">
+                                        <input type="text" id="search_name" class="dt-search" data-dt-col="1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <a onclick="_dtSearch()" class="btn indigo waves-effect waves-light mr-2">Search</a>
+                                    <a onclick="_resetDtSearch()" class="btn grey darken-3 waves-effect waves-light mr-2">Reset</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a class="waves-effect waves-light btn modal-trigger mb-2 mr-1" onclick="showModal()">Add New Bank</a>
+
+                    <div id="modal1" class="modal">
+                        <div class="modal-content">
+                            <h4 id="modal_title"></h4>
+                            <form class="paaswordvalidate">
+                                <div class="row">
+                                    <div class="col s12">
+                                        <input type="hidden" id="item_id" name="item_id" value="0">
+                                    </div>
+                                    <div class="col s12">
+                                        <div class="input-field">
+                                            <label for="bank_name">Bank Name</label>
+                                            <input type="text" id="bank_name" name="bank_name" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="col s12 display-flex justify-content-end form-action">
+                                <a onclick="addItem()" class="btn indigo waves-effect waves-light mr-2">
+                                    Save changes
+                                </a>
+                                <a onclick="$('#modal1').modal('close');" class="btn btn-light-pink waves-effect waves-light mb-1">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="users-list-table">
+                        <div class="card">
+                            <div class="card-content">
+                                <!-- datatable start -->
+                                <div class="responsive-table" style="overflow-x:auto;">
+                                    <table id="list-datatable" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Bank Name</th>
+                                                <th>Status</th>
+                                                <th>Edit</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- datatable ends -->
+                            </div>
+                        </div>
+                    </div>
+
+
+                </section>
+                <!-- users list ends -->
+            </div>
+            <div class="content-overlay"></div>
+        </div>
+    </div>
+</div>
+<!-- END: Page Main-->
+
+
+<script type="text/javascript">
+    $(".ajaxLoader").show();
+
+    $(document).ready(function() {
+        $(".ajaxLoader").fadeOut();
+
+        // datatable initialization
+        usersTable = $("#list-datatable").DataTable({
+            "lengthChange": true, // Hide "Show entries"
+            "dom": 'lrtp', // Hide search bar
+            "processing": true,
+            "serverSide": true,
+            // 'responsive': true,
+            'serverMethod': 'post',
+            "ajax": {
+                "url": '/bank/banks',
+                "type": "POST",
+                "dataFilter": function(data) {
+                    // checkStatus(data);
+                    data = JSON.parse(data);
+                    console.log(data);
+                    if (data.status == false) {
+                        alert(data.msg);
+                        location.href = '/';
+                        exit(0);
+                    } else {
+                        $(".ajaxLoader").fadeOut();
+                        return JSON.stringify(data.data);
+                    }
+                }
+            },
+            "drawCallback": function(settings) {
+                console.log(settings.json);
+                //do whatever  
+                $(".tooltipped").tooltip({
+                    delay: 50
+                });
+            },
+            "columns": [
+                {
+                    "searchable": false,
+                    "orderable": false,
+                    "data": "a.id",
+                    render: function(data, type, row, meta) {
+                        return row.id;
+                    }
+                },
+                {
+                    "orderable": false,
+                    "data": "a.name",
+                    render: function(data, type, row, meta) {
+                        return row.name;
+                    }
+                },
+                {
+                    "orderable": false,
+                    "searchable": false,
+                    "data": "a.id",
+                    "className": "dt-center",
+                    render: function(data, type, row, meta) {
+                        let checked = '';
+                        let msg = 'Inactive';
+                        if (row.status == 1) {
+                            checked = 'checked';
+                            msg = 'Active';
+                        }
+                        return `
+                            <div class="switch mb-1">
+                                <label>
+                                    <input ${checked} type="checkbox" onchange="updateStatus(${row.id}, this)"><span class="lever"></span>${msg}
+                                </label>
+                            </div>
+                        `;
+                    }
+                },
+                {
+                    "orderable": false,
+                    "searchable": false,
+                    "data": "a.id",
+                    render: function(data, type, row, meta) {
+                        return `<a href="javascript:void(0);" onclick="showModal(${row.id}, '${row.name}')"><i class="material-icons">edit</i></a>`;
+                    }
+                },
+            ],
+            'columnDefs': [{
+                className: "dt-center",
+                targets: "_all"
+            }],
+            "order": [0, 'asc'],
+        });
+
+    });
+
+    function showModal(item_id = '', bank_name = '') {
+        $("#item_id").val(item_id);
+        $("#bank_name").val(bank_name);
+        $('label').addClass('active');
+        $('#modal1').modal("open");
+    }
+
+    function updateStatus(item_id, obj) {
+        if (confirm('Are you confirm to update status?')) {
+            var param = {
+                item_id: item_id
+            };
+
+            $(".ajaxLoader").show();
+            $.post('/bank/banks-block', param, function(d) {
+                checkStatus(d);
+                if (d.status) {
+                    // window.alert(d.msg);
+                    location.href = '/bank/banks';
+                } else {
+                    $(".ajaxLoader").fadeOut();
+                    window.alert(d.msg);
+                    location.href = '/bank/banks';
+                }
+            }, 'json');
+        } else {
+            if ($(obj).is(':checked')) {
+                $(obj).prop('checked',false);
+            } else {
+                $(obj).prop('checked',true);
+            }
+        }
+    }
+
+    function addItem() {
+        if (confirm('Are you confirm to submit?')) {
+            var param = {
+                item_id: $("#item_id").val(),
+                bank_name: $("#bank_name").val(),
+            };
+
+            $(".ajaxLoader").show();
+            $.post('/bank/banks-add', param, function(d) {
+                checkStatus(d);
+                $(".ajaxLoader").fadeOut();
+                if (d.status) {
+                    window.alert(d.msg);
+                    location.href = '/bank/banks';
+                } else {
+                    window.alert(d.msg);
+                    // location.href = '/user/user-group';
+                }
+            }, 'json');
+        }
+    }
+
+</script>

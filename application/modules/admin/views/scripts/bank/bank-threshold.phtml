@@ -1,0 +1,357 @@
+<!-- BEGIN: Page Main-->
+<div id="main">
+    <div class="row">
+        <div id="breadcrumbs-wrapper"
+            data-image="<?php echo C_GLOBAL_APP_ASSET; ?>images/gallery/breadcrumb-bg.jpg">
+            <!-- Search for small screen-->
+            <div class="container">
+                <div class="row">
+                    <div class="col s12 m6 l6">
+                        <h5 class="breadcrumbs-title mt-0 mb-0"><span>Bank Threshold</span></h5>
+                    </div>
+                    <div class="col s12 m6 l6 right-align-md">
+                        <ol class="breadcrumbs mb-0">
+                            <li class="breadcrumb-item"><a href="index">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">Bank Threshold
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12">
+            <div class="container">
+                <!-- users list start -->
+                <section class="users-list-wrapper section">
+                    <div class="users-list-filter">
+                        <div class="card-panel">
+                            <div class="row">
+                                <div class="col s12 m4 l3">
+                                    <label for="search_name">Bank Name</label>
+                                    <div class="input-field">
+                                        <input type="text" id="search_name" class="dt-search" data-dt-col="0">
+                                    </div>
+                                </div>
+                                <div class="col s12 m4 l3">
+                                    <label for="search_acc_no">Bank Account No</label>
+                                    <div class="input-field">
+                                        <input type="text" id="search_acc_no" class="dt-search" data-dt-col="1">
+                                    </div>
+                                </div>
+                                <div class="col s12 m4 l3">
+                                    <label for="search_paynow_name">PayNow Name</label>
+                                    <div class="input-field">
+                                        <input type="text" id="search_paynow_name" searching class="dt-search" data-dt-col="2">
+                                    </div>
+                                </div>
+                                <div class="col s12 m4 l3">
+                                    <label for="search_paynow_number">PayNow Number</label>
+                                    <div class="input-field">
+                                        <input type="text" id="search_paynow_number" class="dt-search" data-dt-col="3">
+                                    </div>
+                                </div>
+                                <div class="col s12 m4 l3">
+                                    <label for="search_active">Threshold Status</label>
+                                    <div class="input-field">
+                                        <select id="search_active" class="dt-search" data-dt-col="10">
+                                            <option value="">All</option>
+                                            <option value="0">Inactive</option>
+                                            <option value="1">Active</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <a onclick="_dtSearch()" class="btn indigo waves-effect waves-light mr-2">Search</a>
+                                    <a onclick="_resetDtSearch()" class="btn grey darken-3 waves-effect waves-light mr-2">Reset</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="users-list-table">
+                        <div class="card">
+                            <div class="card-content">
+                                <!-- datatable start -->
+                                <div class="responsive-table" style="overflow-x:auto;">
+                                    <table id="list-datatable" class="table">
+                                        <thead>
+                                            <tr>
+                                                <!-- <th></th> -->
+                                                <th>Bank Name</th>
+                                                <th>Bank Account No.</th>
+                                                <th>PayNow Name</th>
+                                                <th>PayNow Number</th>
+                                                <th>Balance</th>
+                                                <th>Daily Transaction Count Limit</th>
+                                                <th>Daily Transaction Amount Limit</th>
+                                                <th>Daily Withdrawal Limit</th>
+                                                <th>Threshold Reset</th>
+                                                <th>Edit</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- datatable ends -->
+                            </div>
+                        </div>
+                    </div>
+
+
+                </section>
+                <!-- users list ends -->
+            </div>
+            <div class="content-overlay"></div>
+        </div>
+    </div>
+</div>
+<!-- END: Page Main-->
+
+
+<script type="text/javascript">
+    $(".ajaxLoader").show();
+
+    $(document).ready(function() {
+        $(".ajaxLoader").fadeOut();
+
+        // datatable initialization
+        usersTable = $("#list-datatable").DataTable({
+            "lengthChange": true, // Hide "Show entries"
+            "dom": 'lrtp', // Hide search bar
+            "processing": true,
+            "serverSide": true,
+            // 'responsive': true,
+            'serverMethod': 'post',
+            "ajax": {
+                "url": '/bank/bank-list',
+                "type": "POST",
+                "dataFilter": function(data) {
+                    checkStatus(data);
+                    data = JSON.parse(data);
+                    console.log(data);
+                    if (data.status == false) {
+                        alert(data.msg);
+                        location.href = '/';
+                        exit(0);
+                    } else {
+                        $(".ajaxLoader").fadeOut();
+                        return JSON.stringify(data.data);
+                    }
+                }
+            },
+            "drawCallback": function(settings) {
+            },
+            "rowCallback": function(row, data, index){
+                if (Number(data.is_active) == 0) {
+                    $('td', row).css('background', '#eccdcb');
+                    $('td', row).css('color', '#9e4855');
+                }
+            },
+            "columns": [
+                // {
+                //     "searchable": false,
+                //     "orderable": false,
+                //     render: function(data, type, row, meta) {
+                //         return '';
+                //     }
+                // },
+                {
+                    "data": "a.bank_name",
+                    render: function(data, type, row, meta) {
+                        return row.bank_name;
+                    }
+                },
+                {
+                    "data": "a.bank_acc_no",
+                    render: function(data, type, row, meta) {
+                        return row.bank_acc_no;
+                    }
+                },
+                {
+                    "orderable": false,
+                    "data": "LOWER(JSON_EXTRACT(a.details, '$.paynow_name'))",
+                    render: function(data, type, row, meta) {
+                        let details = JSON.parse(row.details);
+                        if (details != null && typeof details.paynow_name !== 'undefined') {
+                            return details.paynow_name;
+                        } else {
+                            return '';
+                        }
+                    }
+                },
+                {
+                    "orderable": false,
+                    "data": "JSON_EXTRACT(a.details, '$.phone_number')",
+                    render: function(data, type, row, meta) {
+                        let details = JSON.parse(row.details);
+                        if (details != null && typeof details.phone_number !== 'undefined') {
+                            return details.phone_number;
+                        } else {
+                            return '';
+                        }
+                    }
+                },
+                {
+                    "orderable": false,
+                    "searchable": false,
+                    "data": "a.bank_acc_no",
+                    render: function(data, type, row, meta) {
+                        return row.bank_balance;
+                    }
+                },
+                {
+                    "orderable": false,
+                    "searchable": false,
+                    "data": "a.transaction_limit_count",
+                    "className": "dt-center",
+                    render: function(data, type, row, meta) {
+                        let color = 'blue';
+                        let percentage = (parseFloat(row.transaction_total_count) / parseFloat(row.transaction_limit_count)) * 100;
+                        if (percentage >= 60) {
+                            color = 'orange';
+                        }
+                        if (percentage >= 90) {
+                            color = 'red';
+                        }
+
+                        return `<font color="${color}">${row.transaction_total_count}</font> / ${row.transaction_limit_count}`;
+                    }
+                },
+                {
+                    "orderable": false,
+                    "searchable": false,
+                    "data": "a.transaction_limit_amount",
+                    "className": "dt-center",
+                    render: function(data, type, row, meta) {
+
+                        let color = 'blue';
+                        let percentage = (parseFloat(row.transaction_total_amount) / parseFloat(row.transaction_limit_amount)) * 100;
+                        console.log(percentage);
+                        if (percentage >= 60) {
+                            color = 'orange';
+                        }
+                        if (percentage >= 90) {
+                            color = 'red';
+                        }
+
+                        return `<font color="${color}">${row.transaction_total_amount}</font> / ${row.transaction_limit_amount}`;
+                    }
+                },
+                {
+                    "orderable": false,
+                    "searchable": false,
+                    "data": "a.withdrawal_limit_amount",
+                    "className": "dt-center",
+                    render: function(data, type, row, meta) {
+                        let color = 'blue';
+                        let percentage = (parseFloat(row.withdrawal_total_amount) / parseFloat(row.withdrawal_limit_amount)) * 100;
+                        if (percentage >= 60) {
+                            color = 'orange';
+                        }
+                        if (percentage >= 90) {
+                            color = 'red';
+                        }
+
+                        return `<font color="${color}">${row.withdrawal_total_amount}</font> / ${row.withdrawal_limit_amount}`;
+                    }
+                },
+                {
+                    "orderable": false,
+                    "searchable": false,
+                    "data": "a.id",
+                    "className": "dt-center",
+                    render: function(data, type, row, meta) {
+                        return `<a href="javascript:void(o);" onclick="resetThreshold(${row.id}, '${row.bank_name}', '${row.bank_acc_no}')"><i class="material-icons">refresh</i></a>`;
+                    }
+                },
+                {
+                    "orderable": false,
+                    "searchable": false,
+                    "data": "a.id",
+                    render: function(data, type, row, meta) {
+                        return `<a href="/bank/bank-add?item_id=${row.id}"><i class="material-icons">edit</i></a>`;
+                    }
+                },
+                {
+                    "orderable": false,
+                    "data": "a.is_active",
+                    "className": "dt-center",
+                    render: function(data, type, row, meta) {
+                        let color = 'blue';
+                        let active = 'Active';
+                        if (Number(row.is_active) == 0) {
+                            color = 'red';
+                            active = 'Inactive';
+                        }
+
+                        return `<font color="${color}">${active}</font>`;
+                    }
+                },
+            ],
+            // 'columnDefs': [
+            //     {
+            //         targets: [0],
+            //         className: "tablet, mobile"
+            //     },
+            //     // {"className": "dt-center", "targets": "_all"}
+            // ],
+            "order": [1, 'desc'],
+        });
+
+    });
+
+    function updateStatus(item_id, type, obj) {
+        if (confirm('Are you confirm to update status?')) {
+            var param = {
+                item_id: item_id,
+                type: type
+            };
+
+            $(".ajaxLoader").show();
+            $.post('/bank/bank-threshold-block', param, function(d) {
+                checkStatus(d);
+                if (d.status) {
+                    // window.alert(d.msg);
+                    location.href = '/bank/bank-threshold';
+                } else {
+                    $(".ajaxLoader").fadeOut();
+                    window.alert(d.msg);
+                    location.href = '/bank/bank-threshold';
+                }
+            }, 'json');
+        } else {
+            if ($(obj).is(':checked')) {
+                $(obj).prop('checked',false);
+            } else {
+                $(obj).prop('checked',true);
+            }
+        }
+    }
+
+    function resetThreshold(item_id, bank_name, bank_acc_no) {
+        if (confirm(`Are you confirm to reset threshold?\nBank Name: ${bank_name}\nBank Acc No: ${bank_acc_no}`)) {
+            var param = {
+                item_id: item_id
+            };
+
+            $(".ajaxLoader").show();
+            $.post('/bank/bank-threshold-reset', param, function(d) {
+                checkStatus(d);
+                if (d.status) {
+                    // window.alert(d.msg);
+                    location.href = '/bank/bank-threshold';
+                } else {
+                    $(".ajaxLoader").fadeOut();
+                    window.alert(d.msg);
+                    location.href = '/bank/bank-threshold';
+                }
+            }, 'json');
+        }
+    }
+
+</script>

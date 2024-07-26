@@ -1,0 +1,277 @@
+<!-- BEGIN: Page Main-->
+<div id="main">
+	<div class="row">
+		<div id="breadcrumbs-wrapper"
+			data-image="<?php echo C_GLOBAL_APP_ASSET; ?>images/gallery/breadcrumb-bg.jpg">
+			<!-- Search for small screen-->
+			<div class="container">
+				<div class="row">
+					<div class="col s12 m6 l6">
+						<h5 class="breadcrumbs-title mt-0 mb-0"><span>Add New Promotion</span></h5>
+					</div>
+					<div class="col s12 m6 l6 right-align-md">
+						<ol class="breadcrumbs mb-0">
+							<li class="breadcrumb-item active">Add New Promotion</li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="col s12">
+			<div class="container">
+				<!-- users list start -->
+				<section class="users-list-wrapper section">
+                    <div class="row">
+                        <div class="col s12 m6 l6">
+                            <div class="card card card-default scrollspy">
+                                <div class="card-content">
+                                    <h4 class="card-title">Add New Promotion</h4>
+                                    <form id="submit_form" class="paaswordvalidate">
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <input type="hidden" id="item_id" name="item_id" value="0"
+                                                    data-error=".errorTxt1" />
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12 m12 l12">
+                                                    <label for="uid" class='active'>Username</label>
+                                                    <div class="input-field">
+                                                        <select class="select2-data-user browser-default" id="uid"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col s12 m12 l12">
+                                                    <div class="input-field">
+                                                        <label for="amount">Promotion Amount</label>
+                                                        <input type="number" id="amount" name="amount" value=""/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12 m12 l12">
+                                                    <div class="input-field">
+                                                        <label for="remark">Remark (Optional)</label>
+                                                        <input type="text" id="remark" name="remark" value=""/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <br>
+
+                                            <div class="row">
+                                                <div class="col s12">
+                                                    <a onclick="submitApi()" class="btn indigo waves-effect waves-light mr-2">Submit</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col s12 m6 l6">
+                            <div class="card">
+                                <div class="card-content" style="overflow-x:auto;">
+                                    <span class="card-title">Last 10 Promotion</span>
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th>Trasanction Date</th>
+                                            <th>Username</th>
+                                            <th>Member Name</th>
+                                            <th>Amount</th>
+                                            <th>Remark</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="prev_promo"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+					</div>
+				</section>
+				<!-- users list ends -->
+			</div>
+			<div class="content-overlay"></div>
+		</div>
+	</div>
+</div>
+<!-- END: Page Main-->
+
+<script type="text/javascript" src="<?php echo C_GLOBAL_JS ?>select2-user.js"></script>
+
+<script type="text/javascript">
+	$(".ajaxLoader").show();
+	var item_id = 0;
+    var cur_bank = [];
+
+    $(document).ready(async function() {
+		await _init();
+
+        var url = new URL(window.location.href);
+        item_id = url.searchParams.get("item_id");
+        if (typeof item_id === 'undefined' || item_id == "" || item_id == null || item_id == 0) {
+			item_id = 0;
+		} else {
+            loadApi(item_id);
+        }
+
+        $(document).keyup(
+            function (e) {
+                if (e.keyCode === 13) {
+                    submitApi();
+                }
+            }
+        );
+
+        $(".ajaxLoader").fadeOut();
+	});
+
+	function _init() {
+        return new Promise((resolve, reject) => {
+            var param = {
+            };
+
+            $.post('/promo/promo-add', param, function(d) {
+                checkStatus(d);
+                console.log(d);
+
+                if (d.status) {
+
+                    if (typeof d.data !== 'undefined') {
+                        let prev_promo = d.data;
+
+                        $(prev_promo).each(function() {
+                            $('#prev_promo').append(`
+                            <tr>
+                                <td>${this.created_at}</td>
+                                <td>${this.username}</td>
+                                <td>${this.full_name}</td>
+                                <td>${this.amount}</td>
+                                <td>${this.remark}</td>
+                            </tr
+                            `);
+                        });
+
+                    }
+                    resolve();
+                } else {
+                    window.alert(d.msg);
+                    location.href = '/promo/promo-list';
+                }
+            }, 'json');
+        });
+	}
+
+	function submitApi() {
+
+        var form = new FormData();
+
+        let form_field = $('#submit_form input:not([readonly]), #submit_form select');
+        let exclude_id = ["remark"];  // exclude required checking
+        for (let i = 0; i < form_field.length; i++){
+            let e = form_field[i];
+
+            if (typeof e.id === 'undefined' || e.id == '') {
+                continue;
+            }
+
+            if ($("#" + e.id).hasClass('invalid')) {
+                alert($(`label[for="${e.id}"]`).html() + " Error");
+                return;
+            }
+
+            if (!exclude_id.includes(e.id)) {
+                if (typeof $("#" + e.id) === 'undefined' || $("#" + e.id).val() == null ||  $("#" + e.id).val() == "") {
+                    alert($(`label[for="${e.id}"]`).html() + " Can't Be Empty");
+                    return;
+                }
+            }
+
+            let val = $("#" + e.id).val().trim();
+            /** Date Format */
+            // if (e.id == 'dob') {
+            //     val = formatDate(val);
+            // }
+
+            form.append(e.id, val);
+        }
+
+        if (confirm('Are you confirm to submit?')) {
+
+			var settings = {
+				"async": true,
+				"crossDomain": true,
+				"url": '/promo/promo-add-submit',
+				"method": "POST",
+				"headers": {
+					"Accept": "application/json"
+				},
+				"processData": false,
+				"contentType": false,
+				"mimeType": "multipart/form-data",
+				"data": form
+			};
+			$(".ajaxLoader").show();
+
+			$.ajax(settings).done(function(d) {
+				console.log(d);
+				var d = JSON.parse(d);
+				$(".ajaxLoader").fadeOut();
+				if (typeof d.status !== 'undefined' && d.status) {
+					window.alert('Success');
+					window.location.href = "/promo/promo-add";
+				} else {
+					window.alert(d.msg);
+				}
+			});
+
+
+		}
+	}
+
+	function loadApi(item_id) {
+		var param = {
+			item_id: item_id
+		};
+
+		$.post('/promo/promo-edit', param, function(d) {
+			// checkStatus(d);
+            console.log(d);
+			if (d.status) {
+
+                $("#item_id").val(item_id);
+
+				$("#promo_name").val(d.data.promo_name);
+                $("#promo_name").formSelect();
+
+				$("#promo_acc_name").val(d.data.promo_acc_name);
+				$("#promo_acc_no").val(d.data.promo_acc_no);
+				$("#min_deposit").val(d.data.min_deposit);
+				$("#max_deposit").val(d.data.max_deposit);
+
+                $("#deposit_limit_amount").val(d.data.deposit_limit_amount);
+				$("#deposit_limit_count").val(d.data.deposit_limit_count);
+				$("#deposit_limit_status").val(d.data.deposit_limit_status);
+                $("#deposit_limit_status").formSelect();
+
+                $("#withdrawal_limit_amount").val(d.data.withdrawal_limit_amount);
+				$("#withdrawal_limit_count").val(d.data.withdrawal_limit_count);
+				$("#withdrawal_limit_status").val(d.data.withdrawal_limit_status);
+                $("#withdrawal_limit_status").formSelect();
+                
+                $('label').addClass('active');
+
+                $('#img-cover').attr('src', d.data.promo_img);
+
+			} else {
+				window.alert(d.msg);
+				location.href = '/promo/promo-list';
+			}
+		}, 'json');
+
+	}
+</script>
+

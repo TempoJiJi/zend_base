@@ -1,0 +1,572 @@
+<style>
+.select2-selection:focus {
+    border-bottom: 2px solid #03a9f4;
+}
+/* .select2-results ul li {
+    background-color: red;
+} */
+
+</style>
+
+<!-- BEGIN: Page Main-->
+<div id="main">
+	<div class="row">
+		<div id="breadcrumbs-wrapper"
+			data-image="<?php echo C_GLOBAL_APP_ASSET; ?>images/gallery/breadcrumb-bg.jpg">
+			<!-- Search for small screen-->
+			<div class="container">
+				<div class="row">
+					<div class="col s12 m6 l6">
+						<h5 class="breadcrumbs-title mt-0 mb-0 card-title"><span>Add New Transaction</span></h5>
+					</div>
+					<div class="col s12 m6 l6 right-align-md">
+						<ol class="breadcrumbs mb-0">
+							<li class="breadcrumb-item active card-title">Add New Transaction</li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="col s12">
+			<div class="container">
+				<!-- users list start -->
+				<section class="users-list-wrapper section">
+					<div>
+                        <div class="row">
+                            <div class="col s12 m6 l6">
+                                <div id="basic-form" class="card card card-default scrollspy">
+                                    <div class="card-content">
+                                        <h4 class="card-title total_bank_balance">Total Balance: 0</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m6 l6">
+                                <div id="basic-form" class="card card card-default scrollspy">
+                                    <div class="card-content">
+                                        <h4 class="card-title">Add New Transaction</h4>
+                                        <form id="submit_form" class="paaswordvalidate">
+                                            <div class="col s12">
+                                                <input type="hidden" id="item_id" name="item_id" value="0"/>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12 m12 l12">
+                                                    <div class="input-field">
+                                                        <label class='active' for="trans_type">Transaction Type</label>
+                                                        <select class="select2-data-array select2-data-trans-type browser-default" id="trans_type" >
+                                                            <option value="<?php echo BANK_TRANS_TYPE['deposit']; ?>">Deposit</option>
+                                                            <option value="<?php echo BANK_TRANS_TYPE['withdrawal']; ?>">Withdrawal</option>
+                                                            <option value="<?php echo BANK_TRANS_TYPE['interbank_transfer']; ?>">Interbank Transfer</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12 m12 l12">
+                                                    <label for="bank_id" class='active'>Bank Account Name (Bank Account No)</label>
+                                                    <div class="input-field">
+                                                        <select class="select2-data-array select2-data-company-bank browser-default" id="bank_id"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row uid_input">
+                                                <div class="col s12 m12 l12">
+                                                    <label for="uid" class='active'>Username</label>
+                                                    <div class="input-field">
+                                                        <select class="select2-data-user browser-default" id="uid"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="display:none;" class="row user_bank_id">
+                                                <div class="col s12 m12 l12">
+                                                    <label for="user_bank_id" class='active'>Member Bank (Bank Account No)</label>
+                                                    <div class="input-field">
+                                                        <select class="select2-data-array select2-data-member-bank browser-default" id="user_bank_id"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="display:none;" class="row to_company_bank_id">
+                                                <div class="col s12 m12 l12">
+                                                    <label for="to_company_bank_id" class='active'>To Company Bank (Bank Account No)</label>
+                                                    <div class="input-field">
+                                                        <select class="select2-data-array select2-data-to-company-bank browser-default" id="to_company_bank_id"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12 m12 l12">
+                                                    <div class="input-field">
+                                                        <label for="amount">Transaction Amount</label>
+                                                        <input class="amount_validate" data-error="Amount exceed threshold" type="number" id="amount" name="amount" value=""/>
+                                                        <span class="helper-text" data-error="Amount exceed threshold"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12 m12 l12">
+                                                    <div class="input-field">
+                                                        <label for="remark">Remark (Optional)</label>
+                                                        <input type="text" id="remark" name="remark" value=""/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12">
+                                                    <a onclick="submitApi()" class="btn indigo waves-effect waves-light mr-2">Submit</a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s12 m6 l6">
+                                <div class="card">
+                                    <div class="card-content" style="overflow-x:auto;">
+                                        <span class="card-title">Last 10 Transaction</span>
+                                        <table>
+                                            <thead>
+                                            <tr>
+                                                <th>Transaction Date</th>
+                                                <th>Company Bank</th>
+                                                <th>Username</th>
+                                                <th>Member Name</th>
+                                                <th>Transaction Type</th>
+                                                <th>Amount</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="trans_list"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+					</div>
+				</section>
+				<!-- users list ends -->
+			</div>
+			<div class="content-overlay"></div>
+		</div>
+	</div>
+</div>
+<!-- END: Page Main-->
+
+<script type="text/javascript" src="<?php echo C_GLOBAL_JS ?>select2-user.js"></script>
+
+<script type="text/javascript">
+	$(".ajaxLoader").show();
+	var item_id = 0;
+    var all_bank_data = [];             // all
+    var bank_data = [];                 // only is_active = 1
+    var bank_data_allow_withdraw = [];  // is_active = 1 and is_active_withdraw = 1
+
+    $(document).ready(async function() {
+        /**
+         * get item_id first, below many function will based on item_id lai do (determine is edit or add),
+         * item_id = 0 is add, need to make sure item_id is zero
+         * item_id != 0 is edit
+         * */ 
+        var url = new URL(window.location.href);
+        item_id = url.searchParams.get("item_id");
+        if (typeof item_id === 'undefined' || item_id == "" || item_id == null || item_id == 0) {
+			item_id = 0;
+		}
+
+        /**
+         * transaction type selection setting
+         */
+        $(".select2-data-trans-type").select2({
+            dropdownAutoWidth: true,
+            width: '100%',
+            selectOnClose: true
+        });
+
+
+        /**
+         * initial function
+         *  1. get last 10 transaction
+         *  2. get all bank data, then filter into bank_date and bank_data_allow_withdraw
+         */
+		await _init();
+
+        /**
+         * Edit transaction, load detail
+         */
+        if (item_id != 0) {
+            loadApi(item_id);
+        } else {
+            // if not edit, then focus on transaction type
+            $(".select2-data-trans-type").focus();
+        }
+
+
+        /**
+         * Transaction type event listener
+         *  1. if withdrawal, then change company bank to bank_data_allow_withdraw and show member bank
+         *  2. if deposit, then change company bank to bank_data and hide member bank
+         */
+        $('#trans_type').on('change', function() {
+            let t = $(this).val();
+
+            if (Number(t) == Number(<?php echo BANK_TRANS_TYPE['withdrawal']; ?>)) {
+
+                // show only withdrawal allowed bank
+                companyBankSelect2(bank_data_allow_withdraw);
+
+                // show member bank selection
+                $('.user_bank_id').show();
+                $('.uid_input').show();
+                $('.to_company_bank_id').hide();
+
+            } else if (Number(t) == Number(<?php echo BANK_TRANS_TYPE['interbank_transfer']; ?>)) {
+            
+                // show only withdrawal allowed bank
+                companyBankSelect2(bank_data_allow_withdraw);
+
+                $('.user_bank_id').hide();
+                $('.uid_input').hide();
+                $('.to_company_bank_id').show();
+
+            } else {
+
+                // show all bank
+                companyBankSelect2(all_bank_data);
+
+                // hide member bank selection
+                $('.user_bank_id').hide();
+                $('.uid_input').show();
+                $('.to_company_bank_id').hide();
+            }
+        });
+
+        /**
+         * Member Listener, once change then update member bank.
+         *  No matter transaction type is what.
+         */
+        $('.select2-data-user').on('change', function() {
+            updateMemberBank();
+        })
+
+        /**
+         * Enter key to submit
+         */
+        $(document).keyup(
+            function (e) {
+                if (e.keyCode === 13) {
+                    submitApi();
+                }
+            }
+        );
+
+        $(".ajaxLoader").fadeOut();
+	});
+
+    /**
+     * Load api from user-edit to get member bank
+     *  _default_option for edit use, direct add new option into select2 (refer to loadApi function)
+     */
+    function updateMemberBank(_default_option) {
+
+        // uid
+        let item_id = $('#uid').val();
+        $('.select2-data-member-bank').empty();
+
+        // on edit
+        $(`.select2-data-member-bank`).append(_default_option).trigger('change.select2');
+
+        $.post(`/user/user-edit?item_id=${item_id}`, {}, function(d) {
+            if (d.status) {
+                if (typeof d.data !== 'undefined') {
+                    let member_bank_data = d.data.bank_data;
+
+                    $(".select2-data-member-bank").select2({
+                        dropdownAutoWidth: true,
+                        width: '100%',
+                        data: member_bank_data
+                    });
+                }
+            }
+        }, 'json');
+	}
+
+    /**
+     * Reset and create new select2 for company bank
+     */
+    function companyBankSelect2(_d, _class = 'select2-data-company-bank') {
+        $(`.${_class}`).empty();
+
+        $(`.${_class}`).select2({
+            dropdownAutoWidth: true,
+            width: '100%',
+            data: _d,
+
+            // option text
+            templateResult: function (data, container) {
+
+                // inactive show red color background
+                if (typeof data.is_active !== 'undefined' && Number(data.is_active) == 0) {
+                    $(container).css({"background-color": "#eccdcb", "color": "#9e4855"});
+                }
+
+                // set is-active attribute, for submit checking use
+                $(data.element).attr('is-active', data.is_active);
+
+                return data.text;
+            },
+
+            // select box text
+            templateSelection: function(data, container) {
+                if (typeof data.is_active !== 'undefined' && Number(data.is_active) == 0) {
+                    $(container).css({"background-color": "#eccdcb", "color": "#9e4855"});
+                } else {
+                    $(container).css({"background-color": "white", "color": "black"});
+                }
+                return data.text;
+            }
+        });
+    }
+
+	function _init() {
+        return new Promise((resolve, reject) => {
+            var param = {
+            };
+
+            $.post('/trans/trans-add', param, function(d) {
+                checkStatus(d);
+                // console.log(d);
+
+                if (d.status) {
+
+                    if (typeof d.data !== 'undefined') {
+                        let total_balance = 0;
+                        all_bank_data = d.data.bank_data;
+
+                        // company bank
+                        companyBankSelect2(all_bank_data);
+
+                        // interbank transfer to comapany selection
+                        companyBankSelect2(all_bank_data, 'select2-data-to-company-bank');
+
+                        // store active bank to bank_data
+                        $(all_bank_data).each(function() {
+                            if (Number(this.is_active) == 1) {
+                                bank_data.push(this);
+                            }
+                            total_balance += Number(this.bank_balance);
+                        });
+
+                        // total balance
+                        $('.total_bank_balance').html(`Total Balance: ${total_balance}`);
+
+                        if (bank_data.length > 0) {
+
+                            // prepare another set bank data with allow withdrawal and active bank
+                            $(bank_data).each(function() {
+                                if (Number(this.is_active_withdraw) == 1) {
+                                    bank_data_allow_withdraw.push(this);
+                                }
+                            });
+                            
+                        }
+
+
+                        /** Last 10 transaction table */
+                        let trans_data = d.data.trans_data;
+                        $(trans_data).each(function() {
+                            let amount = this.credit;
+                            let color = 'green';
+                            if (Number(this.debit) != 0) {
+                                amount = this.debit;
+                                color = 'red';
+                            }
+
+                            let style = "";
+                            if (Number(this.status) == 0) {
+                                style = 'background: #eccdcb; color: #9e4855;';
+                            }
+
+                            $('#trans_list').append(`
+                            <tr style="${style}">
+                                <td>${this.transaction_date}</td>
+                                <td>${this.company_bank_acc}</td>
+                                <td>${this.username}</td>
+                                <td>${this.full_name}</td>
+                                <td>${this.trans_type_name}</td>
+                                <td><font color="${color}">${amount}</font></td>
+                            </tr>
+                            `);
+                        });
+
+                    }
+                    resolve();
+                } else {
+                    window.alert(d.msg);
+                    location.href = '/trans/trans-list';
+                }
+            }, 'json');
+        });
+	}
+
+	function submitApi() {
+
+        var form = new FormData();
+
+        let form_field = $('#submit_form input:not([readonly]), #submit_form select');
+        let exclude_id = ["remark", "user_bank_id", "company_bank_id", "uid"];  // exclude required checking
+        for (let i = 0; i < form_field.length; i++){
+            let e = form_field[i];
+
+            if (typeof e.id === 'undefined' || e.id == '') {
+                continue;
+            }
+
+            if ($("#" + e.id).hasClass('invalid')) {
+                alert($(`label[for="${e.id}"]`).html() + " Error");
+                return;
+            }
+
+            if (!exclude_id.includes(e.id)) {
+                if (typeof $("#" + e.id) === 'undefined' || $("#" + e.id).val() == null ||  $("#" + e.id).val() == "") {
+                    alert($(`label[for="${e.id}"]`).html() + " Can't Be Empty");
+                    return;
+                }
+            }
+
+            let val = $("#" + e.id).val();
+            form.append(e.id, val);
+
+            // deposit pop up one more message to show them bank is ady inactive
+            if (e.id == 'bank_id' || e.id == 'to_company_bank_id') {
+                let bankActive = $('option:selected', $("#" + e.id)).attr('is-active');
+                if (typeof bankActive !== 'undefined' && Number(bankActive) == 0) {
+                    if (confirm("Bank threshold hits limit, you confirm to pick this bank?")){
+                    } else {
+                        return;
+                    }
+                }
+            }
+        }
+
+        // add/edit use different api and return url
+        let ajaxUrl = '/trans/trans-add-submit';
+        let hrefUrl = '/trans/trans-add';
+        if (item_id != 0) {
+            ajaxUrl = '/trans/trans-edit-submit';
+            hrefUrl = '/trans/trans-list';
+        }
+
+        if (confirm('Are you confirm to submit?')) {
+			var settings = {
+				"async": true,
+				"crossDomain": true,
+				"url": ajaxUrl,
+				"method": "POST",
+				"headers": {
+					"Accept": "application/json"
+				},
+				"processData": false,
+				"contentType": false,
+				"mimeType": "multipart/form-data",
+				"data": form
+			};
+			$(".ajaxLoader").show();
+
+			$.ajax(settings).done(function(d) {
+				// console.log(d);
+				var d = JSON.parse(d);
+				$(".ajaxLoader").fadeOut();
+				if (typeof d.status !== 'undefined' && d.status) {
+					window.alert('Success');
+					window.location.href = hrefUrl;
+				} else {
+					window.alert(d.msg);
+				}
+			});
+
+
+		}
+	}
+
+
+    /**
+     * For edit, load detail
+     */
+	function loadApi(item_id) {
+		var param = {
+			item_id: item_id
+		};
+
+		$.post('/trans/trans-edit', param, function(d) {
+			// checkStatus(d);
+            // console.log(d);
+
+			if (d.status) {
+
+                // common
+                $('.card-title').html("Edit Transaction");
+                $("#item_id").val(item_id);
+                $("#amount").val(d.data.amount);
+                $("#remark").val(d.data.remark);
+
+                /**
+                 * Prepare new company bank set
+                 *  1. bank_data: active bank, current transaction company bank (no matter is active or not)
+                 *  2. bank_data_allow_withdraw: active and allow withdrawal bank, current transaction company bank (no matter is active or not)
+                 *   since edit will adjust current company bank, after adjust may be active again. So we show current company bank as well
+                 * */
+                bank_data = [];
+                bank_data_allow_withdraw = [];
+                $(all_bank_data).each(function() {
+                    // current transaction company bank, active bank
+                    if (Number(this.id) == Number(d.data.company_bank_id) || Number(this.is_active) == 1) {
+                        bank_data.push(this);
+                    }
+
+                    // current transaction company bank, active and allow withdrawal bank
+                    if (Number(this.id) == Number(d.data.company_bank_id) || (Number(this.is_active_withdraw) == 1 && Number(this.is_active) == 1)) {
+                        bank_data_allow_withdraw.push(this);
+                    }
+                });
+
+
+                /**
+                 * once prepare all data, set transaction type first,
+                 *  transaction type change will update bank selection as well, so we no need to update here 
+                 */
+                $('#trans_type').val(d.data.trans_type).change();
+                $("#trans_type").formSelect();
+
+
+                // set company bank default selected
+                $(".select2-data-company-bank").val(d.data.company_bank_id).trigger('change.select2');
+                $(".select2-data-company-bank").formSelect();
+
+                // set to company bank default
+                // if (d.data.trans_type == '<?php echo BANK_TRANS_TYPE['interbank_transfer']; ?>') {
+                $(".select2-data-to-company-bank").val(d.data.to_company_bank_id).trigger('change.select2');
+                $(".select2-data-to-company-bank").formSelect();
+                // }
+
+                // member id with default option
+                $(`.select2-data-user`).append(`<option value="${d.data.uid}">Member ID: ${d.data.uid} - Username: ${d.data.username}</option`).trigger('change.select2');
+
+
+                // member bank with default option if exists
+                if (d.data.user_bank_id != '0') {
+                    updateMemberBank(`<option selected value="${d.data.user_bank_id}">${d.data.member_bank_text}</option`);
+                } else {
+                    updateMemberBank();
+                }
+                
+                $('label').addClass('active');
+
+			} else {
+				window.alert(d.msg);
+				location.href = '/trans/trans-list';
+			}
+		}, 'json');
+
+	}
+</script>
+

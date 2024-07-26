@@ -1,0 +1,276 @@
+<!-- BEGIN: Page Main-->
+<div id="main">
+	<div class="row">
+		<div id="breadcrumbs-wrapper"
+			data-image="<?php echo C_GLOBAL_APP_ASSET; ?>images/gallery/breadcrumb-bg.jpg">
+			<!-- Search for small screen-->
+			<div class="container">
+				<div class="row">
+					<div class="col s12 m6 l6">
+						<h5 class="breadcrumbs-title mt-0 mb-0"><span>Add New Admin</span></h5>
+					</div>
+					<div class="col s12 m6 l6 right-align-md">
+						<ol class="breadcrumbs mb-0">
+							<li class="breadcrumb-item"><a href="/sadmin/sadmin-list">Admin Listing</a></li>
+							<li class="breadcrumb-item active">Add New Admin</li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="col s12">
+			<div class="container">
+				<!-- users list start -->
+				<section class="users-list-wrapper section">
+                    <div class="row">
+                        <div class="col s12 m6 l6">
+                            <div class="card card card-default scrollspy">
+                                <div class="card-content">
+                                    <h4 class="card-title">Add New Admin</h4>
+                                    <form id="submit_form" class="paaswordvalidate">
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <input type="hidden" id="item_id" name="item_id" value="0"
+                                                    data-error=".errorTxt1" />
+                                            </div>
+                                            <div class="row">
+                                                <div class="col l6 s12">
+                                                    <div class="input-field">
+                                                        <label for="username" class='active'>Username</label>
+                                                        <input type="text" id="username" name="username" value=""/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col l6 s12">
+                                                    <div class="input-field">
+                                                        <label for="fullname">Full Name</label>
+                                                        <input type="text" id="fullname" name="fullname" value=""/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col l6 s12">
+                                                    <div class="input-field">
+                                                        <label for="password">Password</label>
+                                                        <input type="text" id="password" name="password" value=""/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col l6 s12">
+                                                    <div class="input-field">
+                                                        <label for="password2">Confirm Password</label>
+                                                        <input type="text" id="password2" name="password2" value=""/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <br>
+
+                                            <div class="row">
+                                                <div class="col s12 m12 l12">
+                                                <p>Access</p>
+                                                    <div class="row admin_menu">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <div class="row">
+                                                <div class="col s12">
+                                                    <a onclick="submitApi()" class="btn indigo waves-effect waves-light mr-2">Submit</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+					</div>
+				</section>
+				<!-- users list ends -->
+			</div>
+			<div class="content-overlay"></div>
+		</div>
+	</div>
+</div>
+<!-- END: Page Main-->
+
+<script type="text/javascript">
+	$(".ajaxLoader").show();
+	var item_id = 0;
+
+    $(document).ready(async function() {
+		await _init();
+
+        var url = new URL(window.location.href);
+        item_id = url.searchParams.get("item_id");
+        if (typeof item_id === 'undefined' || item_id == "" || item_id == null || item_id == 0) {
+			item_id = 0;
+		} else {
+            loadApi(item_id);
+        }
+
+        $(document).keyup(
+            function (e) {
+                if (e.keyCode === 13) {
+                    submitApi();
+                }
+            }
+        );
+
+        $(".ajaxLoader").fadeOut();
+
+	});
+
+	function _init() {
+        return new Promise((resolve, reject) => {
+            var param = {
+            };
+
+            $.post('/sadmin/sadmin-add', param, function(d) {
+                checkStatus(d);
+                console.log(d);
+
+                if (d.status) {
+
+                    if (typeof d.data !== 'undefined') {
+                        let admin_menu = d.data;
+                        $(admin_menu).each(function(i) {
+                            $('.admin_menu').append(`
+                            <div class="col s12 m6 l6">
+                                <p><label>
+                                    <input type="checkbox" class="filled-in" value="${this.id}"/><span>${this.display_name}</span>
+                                </label></p>
+                            </div>
+                            `);
+                        });
+                    }
+                    resolve();
+                } else {
+                    window.alert(d.msg);
+                    location.href = '/sadmin-list';
+                }
+            }, 'json');
+        });
+	}
+
+	function submitApi() {
+
+        var form = new FormData();
+
+        let form_field = $('#submit_form input:not([readonly]), #submit_form select');
+        let exclude_id = [];  // exclude required checking
+        if (item_id != 0) {
+            exclude_id = ['password', 'password2'];
+        }
+        for (let i = 0; i < form_field.length; i++){
+            let e = form_field[i];
+            console.log(e.id);
+
+            if (typeof e.id === 'undefined' || e.id == '') {
+                continue;
+            }
+
+            if (!exclude_id.includes(e.id)) {
+                if (typeof $("#" + e.id) === 'undefined' || $("#" + e.id).val() == null ||  $("#" + e.id).val() == "") {
+                    alert($(`label[for="${e.id}"]`).html() + " Can't Be Empty");
+                    break_flag = true;
+                    return;
+                }
+            }
+
+            let val = $("#" + e.id).val().trim();
+            /** Date Format */
+            // if (e.id == 'dob') {
+            //     val = formatDate(val);
+            // }
+
+            form.append(e.id, val);
+        }
+
+        if (item_id == 0) {
+            if ($('#password').val() != $('#password2').val()) {
+                alert("Password not match");
+                return;
+            }        
+        }
+
+
+        var accessList = [];
+        $(".admin_menu [type=checkbox]:checked").each(function() {
+            accessList.push($(this).val());
+        });
+        form.append('access_list', accessList);
+
+        if (confirm('Are you confirm to submit?')) {
+
+			var settings = {
+				"async": true,
+				"crossDomain": true,
+				"url": '/sadmin/sadmin-add-submit',
+				"method": "POST",
+				"headers": {
+					"Accept": "application/json"
+				},
+				"processData": false,
+				"contentType": false,
+				"mimeType": "multipart/form-data",
+				"data": form
+			};
+			$(".ajaxLoader").show();
+
+			$.ajax(settings).done(function(d) {
+				console.log(d);
+				var d = JSON.parse(d);
+				$(".ajaxLoader").fadeOut();
+				if (typeof d.status !== 'undefined' && d.status) {
+					window.alert('Success');
+					window.location.href = "/sadmin/sadmin-list";
+				} else {
+					window.alert(d.msg);
+				}
+			});
+
+
+		}
+	}
+
+
+	function loadApi(item_id) {
+		var param = {
+			item_id: item_id
+		};
+
+		$.post('/sadmin/sadmin-edit', param, function(d) {
+			// checkStatus(d);
+            console.log(d);
+			if (d.status) {
+
+                $("#item_id").val(item_id);
+
+                let admin_data = d.data.admin_data;
+                let acl = d.data.acl;
+
+				$("#username").val(admin_data.username);
+                $("#fullname").val(admin_data.fullname);
+
+                $(".admin_menu [type=checkbox]").each(function() {
+                    if (acl.includes($(this).val())) {
+                        $(this).attr('checked', true);
+                    }
+                });
+
+                $('label').addClass('active');
+
+			} else {
+				window.alert(d.msg);
+				location.href = '/sadmin/sadmin-list';
+			}
+		}, 'json');
+
+	}
+</script>
+

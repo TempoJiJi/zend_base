@@ -1,0 +1,229 @@
+<style>
+.asdjkl {
+   overflow: visible !important;
+}
+
+</style>
+
+<!-- BEGIN: Page Main-->
+<div id="main">
+    <div class="row">
+        <div id="breadcrumbs-wrapper"
+            data-image="<?php echo C_GLOBAL_APP_ASSET; ?>images/gallery/breadcrumb-bg.jpg">
+            <!-- Search for small screen-->
+            <div class="container">
+                <div class="row">
+                    <div class="col s12 m6 l6">
+                        <h5 class="breadcrumbs-title mt-0 mb-0"><span>Cashback Setting</span></h5>
+                    </div>
+                    <div class="col s12 m6 l6 right-align-md">
+                        <ol class="breadcrumbs mb-0">
+                            <li class="breadcrumb-item"><a href="/index">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">Cashback Setting
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12">
+            <div class="container">
+                <!-- users list start -->
+                <section class="users-list-wrapper section">
+                    <div class="users-list-filter">
+                        <div class="card-panel">
+                            <div class="row">
+                                <div class="col s12 m4 l3">
+                                    <label for="search_name">File Name</label>
+                                    <div class="input-field">
+                                        <input type="text" id="search_name" class="dt-search" data-dt-col="1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <a onclick="_dtSearch()" class="btn indigo waves-effect waves-light mr-2">Search</a>
+                                    <a onclick="_resetDtSearch()" class="btn grey darken-3 waves-effect waves-light mr-2">Reset</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5>Upload Excel (xlsx)</h5>
+                    <form method="post" id="form-attachment">
+                        <div class="form-group">
+                            <input type="file" id="file" name="file[]" accept=".xlsx" />
+                        </div>
+                    </form>
+                    <br>
+                    <a id="upload_btn" class="waves-effect waves-light btn modal-trigger mb-2 mr-1" href="javascript:void(0);" onclick="uploadFile()">Upload</a>
+
+                    <div class="users-list-table">
+                        <div class="card">
+                            <div class="card-content">
+                                <!-- datatable start -->
+                                <div class="responsive-table" style="overflow-x:auto;">
+                                    <table id="list-datatable" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>File Name</th>
+                                                <th>Upload Date</th>
+                                                <th>Status</th>
+                                                <th>View</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- datatable ends -->
+                            </div>
+                        </div>
+                    </div>
+
+
+                </section>
+                <!-- users list ends -->
+            </div>
+            <div class="content-overlay"></div>
+        </div>
+    </div>
+</div>
+<!-- END: Page Main-->
+
+
+<script type="text/javascript">
+    $(".ajaxLoader").show();
+
+    $(document).ready(function() {
+        $(".ajaxLoader").fadeOut();
+
+        // datatable initialization
+        usersTable = $("#list-datatable").DataTable({
+            "lengthChange": true, // Hide "Show entries"
+            "dom": 'lrtp', // Hide search bar
+            "processing": true,
+            "serverSide": true,
+            // 'responsive': true,
+            'serverMethod': 'post',
+            "ajax": {
+                "url": '/cashback/cashback-file',
+                "type": "POST",
+                "dataFilter": function(data) {
+                    // checkStatus(data);
+                    data = JSON.parse(data);
+                    console.log(data);
+                    if (data.status == false) {
+                        alert(data.msg);
+                        location.href = '/';
+                        exit(0);
+                    } else {
+                        $(".ajaxLoader").fadeOut();
+                        return JSON.stringify(data.data);
+                    }
+                }
+            },
+            "drawCallback": function(settings) {
+            },
+            "columns": [
+                {
+                    "data": "a.id",
+                    render: function(data, type, row, meta) {
+                        return row.id;
+                    }
+                },
+                {
+                    "data": "a.file_name",
+                    render: function(data, type, row, meta) {
+                        return row.file_name;
+                    }
+                },
+                {
+                    "data": "a.created_at",
+                    render: function(data, type, row, meta) {
+                        return row.created_at;
+                    }
+                },
+                {
+                    "data": "a.is_done",
+                    render: function(data, type, row, meta) {
+                        if (row.is_done == 1) {
+                            return `<font color="blue">Completed</font>`;
+                        } else {
+                            return `<font color="red">Pending</font>`;
+                        }
+                    }
+                },
+                {
+                    "orderable": false,
+                    "searchable": false,
+                    "data": "a.id",
+                    render: function(data, type, row, meta) {
+                        return `<a href="/cashback/cashback-detail?id=${row.id}"><i class="material-icons">visibility</i></a>`;
+                    }
+                },
+            ],
+            'columnDefs': [{
+                className: "dt-center",
+                targets: "_all"
+            }],
+            "order": [0, 'desc'],
+        });
+    });
+
+    $(".tooltipped").tooltip({
+        delay: 500
+    });
+
+	function uploadFile() {
+        
+        var file = $('#file')[0].files[0];
+        if (typeof file !== 'undefined' && file != "") {
+            //All Pass
+        } else {
+            alert("File Can't Be Empty");
+            return;
+        }
+        $(".ajaxLoader").show();
+
+        if (confirm('Are you confirm to submit?')) {
+            $("#upload_btn").attr("disabled", true);
+
+            var form = new FormData();
+            form.append('file_excel', file);
+
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": '/cashback/cashback-upload',
+                "method": "POST",
+                "headers": {
+                    "Accept": "application/json"
+                },
+                "processData": false,
+                "contentType": false,
+                "mimeType": "multipart/form-data",
+                "data": form
+            };
+            $(".ajaxLoader").show();
+
+            $.ajax(settings).done(function(d) {
+                console.log(d);
+                // checkStatus(d);
+                var d = JSON.parse(d);
+                $(".ajaxLoader").fadeOut();
+                if (d.status) {
+                    window.alert('Success');
+                    location.href = '/cashback/cashback-upload';
+                } else {
+                    window.alert(d.msg);
+                    location.href = '/cashback/cashback-upload';
+                }
+            });
+
+
+        }
+    }
+</script>

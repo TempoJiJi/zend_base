@@ -1,0 +1,331 @@
+<style>
+.asdjkl {
+   overflow: visible !important;
+}
+
+</style>
+
+<!-- BEGIN: Page Main-->
+<div id="main">
+    <div class="row">
+        <div id="breadcrumbs-wrapper"
+            data-image="<?php echo C_GLOBAL_APP_ASSET; ?>images/gallery/breadcrumb-bg.jpg">
+            <!-- Search for small screen-->
+            <div class="container">
+                <div class="row">
+                    <div class="col s12 m6 l6">
+                        <h5 class="breadcrumbs-title mt-0 mb-0"><span>Cashback List</span></h5>
+                    </div>
+                    <div class="col s12 m6 l6 right-align-md">
+                        <ol class="breadcrumbs mb-0">
+                            <li class="breadcrumb-item"><a href="index">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">Cashback List
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12">
+            <div class="container">
+                <!-- users list start -->
+                <section class="users-list-wrapper section">
+                    <div class="users-list-filter">
+                        <div class="card-panel">
+                            <div class="row">
+                                <div class="col s12 m4 l3">
+                                    <label for="search_name">Username</label>
+                                    <div class="input-field">
+                                        <input type="text" id="search_name" class="dt-search" data-dt-col="0">
+                                    </div>
+                                </div>
+                                <div class="col s12 m4 l3">
+                                    <label for="search_status">Cashback Status</label>
+                                    <div class="input-field">
+                                        <select id="search_status" class="dt-search" data-dt-col="5">
+                                            <option value="">All</option>
+                                            <option value="0">Pending</option>
+                                            <option value="1">Approved</option>
+                                            <option value="2">Failed</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <a onclick="_dtSearch()" class="btn indigo waves-effect waves-light mr-2">Search</a>
+                                    <a onclick="_resetDtSearch()" class="btn grey darken-3 waves-effect waves-light mr-2">Reset</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a id="upload_btn" class="waves-effect waves-light btn modal-trigger mb-2 mr-1" href="javascript:void(0);" onclick="cashbackCalc()">Calculate Cashback</a>
+
+                    <div class="users-list-table">
+                        <div class="card">
+                            <div class="card-content">
+                                <!-- datatable start -->
+                                <div class="responsive-table" style="overflow-x:auto;">
+                                    <table id="list-datatable" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Username</th>
+                                                <!-- <th>Provider</th> -->
+                                                <th>Win Amount</th>
+                                                <th>Lose Amount</th>
+                                                <th>Cashback Percentage</th>
+                                                <th>Cashback Amount</th>
+                                                <th>Cashback Status</th>
+                                                <th>System Remark</th>
+                                                <th>#</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                        <tfoot style="background: #C5C5C5; color: #000075;">
+                                            <tr>
+                                                <td colspan="1">Total</td>
+                                                <td id="page_total_win">0</td>
+                                                <td id="page_total_lose">0</td>
+                                                <td></td>
+                                                <td id="page_total_cashback">0</td>
+                                                <td colspan="3"></td>
+                                            </tr>
+                                            <tr>
+                                                <td id="total_count" colspan="1" class="dt-center">Total Records: 0</td>
+                                                <td id="total_win" class="dt-center">0</td>
+                                                <td id="total_lose" class="dt-center">0</td>
+                                                <td></td>
+                                                <td id="total_cashback" class="dt-center">0</td>
+                                                <td colspan="3" class="dt-center"></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <!-- datatable ends -->
+                            </div>
+                        </div>
+                    </div>
+
+
+                </section>
+                <!-- users list ends -->
+            </div>
+            <div class="content-overlay"></div>
+        </div>
+    </div>
+</div>
+<!-- END: Page Main-->
+
+
+<script type="text/javascript">
+    $(".ajaxLoader").show();
+    var item_id = 0;
+    var page_total_win = 0;
+    var page_total_lose = 0;
+    var page_total_cashback = 0;
+
+    $(document).ready(function() {
+        $(".ajaxLoader").fadeOut();
+
+        var url = new URL(window.location.href);
+        item_id = url.searchParams.get("id");
+        if (typeof item_id === 'undefined' || item_id == "" || item_id == null || item_id == 0) {
+            location.href = '/cashback/cashback-upload';
+        } 
+        _init(item_id);
+
+        // datatable initialization
+        usersTable = $("#list-datatable").DataTable({
+            "lengthChange": true, // Hide "Show entries"
+            "dom": 'lrtp', // Hide search bar
+            "processing": true,
+            "serverSide": true,
+            // 'responsive': true,
+            'serverMethod': 'post',
+            "ajax": {
+                "url": '/cashback/cashback-detail?item_id=' + item_id,
+                "type": "POST",
+                "dataFilter": function(data) {
+                    // checkStatus(data);
+
+                    // reset total
+                    page_total_win = 0;
+                    page_total_lose = 0;
+                    page_total_cashback = 0;
+
+                    data = JSON.parse(data);
+                    console.log(data);
+                    if (data.status == false) {
+                        alert(data.msg);
+                        location.href = '/';
+                        exit(0);
+                    } else {
+                        $(".ajaxLoader").fadeOut();
+                        return JSON.stringify(data.data);
+                    }
+                }
+            },
+            "drawCallback": function(settings) {
+                $('#page_total_win').html(page_total_win);
+                $('#page_total_lose').html(page_total_lose);
+                $('#page_total_cashback').html(page_total_cashback);
+            },
+            "columns": [
+                {
+                    "data": "a.username",
+                    render: function(data, type, row, meta) {
+                        return row.username;
+                    }
+                },
+                // {
+                //     "searchable": false,
+                //     "orderable": false,
+                //     "data": "a.provider",
+                //     render: function(data, type, row, meta) {
+                //         return row.provider;
+                //     }
+                // },
+                {
+                    "searchable": false,
+                    "data": "a.win_amount",
+                    render: function(data, type, row, meta) {
+                        let v = Number(row.win_amount);
+                        page_total_win += v;
+                        return v;
+                    }
+                },
+                {
+                    "searchable": false,
+                    "data": "a.lose_amount",
+                    render: function(data, type, row, meta) {
+                        let v = Number(row.lose_amount);
+                        page_total_lose += v;
+                        return v;
+                    }
+                },
+                {
+                    "searchable": false,
+                    "data": "a.cashback_percentage",
+                    render: function(data, type, row, meta) {
+                        return row.cashback_percentage;
+                    }
+                },
+                {
+                    "data": "a.cashback_amount",
+                    render: function(data, type, row, meta) {
+                        let v = Number(row.cashback_amount);
+                        page_total_cashback += v;
+                        return v;
+                    }
+                },
+                {
+                    "orderable": false,
+                    "data": "a.cashback_status",
+                    render: function(data, type, row, meta) {
+                        if (row.cashback_status == 2) {
+                            return `<font color="red">Failed</font>`;
+                        } else if (row.cashback_status == 1) {
+                            return `<font color="blue">Approved</font>`;
+                        } else {
+                            return `<font color="black">Pending</font>`;
+                        }
+                    }
+                },
+                {
+                    "searchable": false,
+                    "orderable": false,
+                    "data": "a.sys_remark",
+                    render: function(data, type, row, meta) {
+                        return row.sys_remark;
+                    }
+                },
+                {
+                    "searchable": false,
+                    "orderable": false,
+                    "data": "a.id",
+                    render: function(data, type, row, meta) {
+                        let checked = '';
+                        if (Number(row.is_tick) == 1) {
+                            checked = 'checked';
+                        }
+                        console.log(checked);
+                        return `<label><input type="checkbox" id="${row.id}" value="${row.id}" data-id='${row.id}' onchange="_tick(${row.id}, this)" ${checked}><span></span></label>`;
+                    }
+                },
+
+            ],
+            'columnDefs': [{
+                className: "dt-center",
+                targets: "_all"
+            }],
+            "order": [0, 'asc'],
+        });
+
+    });
+
+    function _init(item_id) {
+        var param = {
+            item_id: item_id,
+        };
+
+        $.post('/cashback/cashback-report-all', param, function(d) {
+            // checkStatus(d);
+            // console.log(d);
+            if (d.status) {
+                if (typeof d.data !== 'undefined') {
+                    $('#total_count').html(`Total Records: ${d.data.total_count}`);
+                    $('#total_win').html(d.data.total_win);
+                    $('#total_lose').html(d.data.total_lose);
+                    $('#total_cashback').html(d.data.total_cashback);
+                }
+            } else {
+                // window.alert(d.msg);
+            }
+        }, 'json');
+    }
+
+    function cashbackCalc() {
+        if (confirm("Are you confirm to calculate cashback ?")) {
+            var param = {
+                item_id: item_id,
+            };
+
+            $(".ajaxLoader").show();
+            $.post('/cashback/cashback-calculate', param, function(d) {
+                checkStatus(d);
+                $(".ajaxLoader").fadeOut();
+                if (d.status) {
+                    window.alert(d.msg);
+                    location.reload();
+                } else {
+                    window.alert(d.msg);
+                    location.reload();
+                }
+            }, 'json');
+        }
+    }
+
+    function _tick(item_id, obj) {
+        let is_tick = 0;
+        if ($(obj).is(':checked')) {
+            is_tick = 1;
+        } else {
+            is_tick = 0;
+        }
+
+        var param = {
+            item_id: item_id,
+            is_tick: is_tick
+        };
+
+        $.post('/cashback/cashback-tick', param, function(d) {
+            if (d.status) {
+            } else {
+            }
+        }, 'json');
+    }
+
+</script>

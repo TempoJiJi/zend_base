@@ -1,0 +1,385 @@
+<script type="text/javascript" src="<?php echo C_GLOBAL_JS ?>date-range.js"></script>
+
+<!-- BEGIN: Page Main-->
+<div id="main">
+    <div class="row">
+        <div id="breadcrumbs-wrapper"
+            data-image="<?php echo C_GLOBAL_APP_ASSET; ?>images/gallery/breadcrumb-bg.jpg">
+            <!-- Search for small screen-->
+            <div class="container">
+                <div class="row">
+                    <div class="col s12 m6 l6">
+                        <h5 class="breadcrumbs-title mt-0 mb-0"><span>Bank Statement</span></h5>
+                    </div>
+                    <div class="col s12 m6 l6 right-align-md">
+                        <ol class="breadcrumbs mb-0">
+                            <li class="breadcrumb-item"><a href="index">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">Bank Statement
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12">
+            <div class="container">
+                <!-- users list start -->
+                <section class="users-list-wrapper section">
+                    <div class="users-list-filter">
+                        <div class="card-panel">
+                            <div class="row">
+                                <div class="col s12 m4 l3">
+                                    <label for="search_date_range">Search Date</label>
+                                    <div class="input-field">
+                                        <input type="text" name="dates" id="search_date_range" value="">
+                                    </div>
+                                </div>
+                                <div class="col s12 m4 l3">
+                                    <label for="search_name">Bank Name</label>
+                                    <div class="input-field">
+                                        <input type="text" id="search_name" class="dt-search" data-dt-col="0">
+                                    </div>
+                                </div>
+                                <div class="col s12 m4 l3">
+                                    <label for="search_acc_name">Bank Holder Name</label>
+                                    <div class="input-field">
+                                        <input type="text" id="search_acc_name" searching class="dt-search" data-dt-col="1">
+                                    </div>
+                                </div>
+                                <div class="col s12 m4 l3">
+                                    <label for="search_acc_no">Bank Account No</label>
+                                    <div class="input-field">
+                                        <input type="text" id="search_acc_no" class="dt-search" data-dt-col="2">
+                                    </div>
+                                </div>
+                                <div class="col s12 m4 l3">
+                                    <label for="search_phone_number">PayNow Number</label>
+                                    <div class="input-field">
+                                        <input type="text" id="search_phone_number" searching class="dt-search" data-dt-col="3">
+                                    </div>
+                                </div>
+                                <div class="col s12 m4 l3">
+                                    <label for="search_phone_name">PayNow Name</label>
+                                    <div class="input-field">
+                                        <input type="text" id="search_phone_name" searching class="dt-search" data-dt-col="4">
+                                    </div>
+                                </div>
+                                <div class="col s12 m4 l3">
+                                    <label class="active" for="card_role">Card Role</label>
+                                    <div class="input-field">
+                                        <select id="card_role" searching class="dt-search" data-dt-col="5">
+                                            <option value="" selected>All</option>
+                                            <?php
+                                            $db = Zend_Db_Table::getDefaultAdapter();
+                                            $details = $db->query("select * from ag_bank_role where status=1 order by id asc")->fetchAll();
+                                            foreach($details as $d) {
+                                                echo "
+                                                    <option value='$d[id]'>$d[display]</option>
+                                                ";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <a onclick="_dtSearch()" class="btn indigo waves-effect waves-light mr-2">Search</a>
+                                    <a onclick="_resetDtSearch()" class="btn grey darken-3 waves-effect waves-light mr-2">Reset</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="users-list-table">
+                        <div class="card">
+                            <div class="card-content">
+                                <!-- datatable start -->
+                                <div class="responsive-table" style="overflow-x:auto;">
+                                    <table id="list-datatable" class="table">
+                                        <thead>
+                                            <tr>
+                                                <!-- <th></th> -->
+                                                <th>Bank Name</th>
+                                                <th>Bank Holder Name</th>
+                                                <th>Bank Account No.</th>
+                                                <th>PayNow Number</th>
+                                                <th>PayNow Name</th>
+                                                <th>Card Role</th>
+                                                <th>Total Transaction Count</th>
+                                                <th>Opening Balance</th>
+                                                <th>Total Deposit</th>
+                                                <th>Total Withdrawal</th>
+                                                <th>Closing Balance</th>
+                                                <th>View</th>
+                                                <th>#</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                        <tfoot style="background: #C5C5C5; color: #000075;">
+                                            <tr>
+                                                <td colspan="6">Total</td>
+                                                <td id="page_total_trans_count">0</td>
+                                                <td id="page_total_opening_balance">0</td>
+                                                <td id="page_total_deposit">0</td>
+                                                <td id="page_total_withdrawal">0</td>
+                                                <td id="page_total_closing_balance">0</td>
+                                                <td colspan="2"></td>
+                                            </tr>
+                                            <tr>
+                                                <td id="total_count" colspan="6" class="dt-center">Total Records: 0</td>
+                                                <td id="total_trans_count" class="dt-center">0</td>
+                                                <td id="total_opening_balance" class="dt-center">0</td>
+                                                <td id="total_deposit" class="dt-center">0</td>
+                                                <td id="total_withdrawal" class="dt-center">0</td>
+                                                <td id="total_closing_balance" class="dt-center">0</td>
+                                                <td colspan="2"></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <!-- datatable ends -->
+                            </div>
+                        </div>
+                    </div>
+
+
+                </section>
+                <!-- users list ends -->
+            </div>
+            <div class="content-overlay"></div>
+        </div>
+    </div>
+</div>
+<!-- END: Page Main-->
+
+
+<script type="text/javascript">
+    $(".ajaxLoader").show();
+    var page_total_opening_balance = 0;
+    var page_total_deposit = 0;
+    var page_total_withdrawal = 0;
+    var page_total_closing_balance = 0;
+    var page_total_trans_count = 0;
+
+    $(document).ready(function() {
+        $(".ajaxLoader").fadeOut();
+        _init();
+
+        // datatable initialization
+        usersTable = $("#list-datatable").DataTable({
+            "lengthChange": true, // Hide "Show entries"
+            "dom": 'lrtp', // Hide search bar
+            "processing": true,
+            "serverSide": true,
+            // 'responsive': true,
+            'serverMethod': 'post',
+            "ajax": {
+                "url": '/bank/bank-report',
+                "type": "POST",
+                "dataFilter": function(data) {
+                    // checkStatus(data);
+
+                    // reset total
+                    page_total_opening_balance = 0;
+                    page_total_deposit = 0;
+                    page_total_withdrawal = 0;
+                    page_total_closing_balance = 0;
+                    page_total_trans_count = 0;
+
+                    data = JSON.parse(data);
+                    // console.log(data);
+                    if (data.status == false) {
+                        alert(data.msg);
+                        location.href = '/';
+                        exit(0);
+                    } else {
+                        $(".ajaxLoader").fadeOut();
+                        return JSON.stringify(data.data);
+                    }
+                }
+            },
+            "drawCallback": function(settings) {
+                $('#page_total_opening_balance').html(page_total_opening_balance);
+                $('#page_total_deposit').html(page_total_deposit);
+                $('#page_total_withdrawal').html(page_total_withdrawal);
+                $('#page_total_closing_balance').html(page_total_closing_balance);
+                $('#page_total_trans_count').html(page_total_trans_count);
+            },
+            "columns": [
+                {
+                    "data": "a.bank_name",
+                    render: function(data, type, row, meta) {
+                        return row.bank_name;
+                    }
+                },
+                {
+                    "data": "a.bank_acc_name",
+                    render: function(data, type, row, meta) {
+                        return row.bank_acc_name;
+                    }
+                },
+                {
+                    "data": "a.bank_acc_no",
+                    render: function(data, type, row, meta) {
+                        return row.bank_acc_no;
+                    }
+                },
+                {
+                    "orderable": false,
+                    "data": "JSON_EXTRACT(a.details, '$.phone_number')",
+                    render: function(data, type, row, meta) {
+                        let details = JSON.parse(row.details);
+                        if (details != null && typeof details.phone_number !== 'undefined') {
+                            return details.phone_number;
+                        } else {
+                            return '';
+                        }
+                    }
+                },
+                {
+                    "orderable": false,
+                    "data": "LOWER(JSON_EXTRACT(a.details, '$.paynow_name'))",
+                    render: function(data, type, row, meta) {
+                        let details = JSON.parse(row.details);
+                        if (details != null && typeof details.paynow_name !== 'undefined') {
+                            return details.paynow_name;
+                        } else {
+                            return '';
+                        }
+                    }
+                },
+                {
+                    "orderable": false,
+                    "data": "a.card_role",
+                    render: function(data, type, row, meta) {
+                        return row.card_role_display;
+                    }
+                },
+                {
+                    "orderable": false,
+                    "searchable": false,
+                    "data": "a.id",
+                    render: function(data, type, row, meta) {
+                        let v = Number(row.total_transaction_count);
+                        page_total_trans_count += v;
+                        return v;
+                    }
+                },
+                {
+                    "orderable": false,
+                    "searchable": false,
+                    "data": "a.id",
+                    render: function(data, type, row, meta) {
+                        let v = Number(parseFloat(row.bank_opening_balance) + parseFloat(row.opening_balance));
+                        page_total_opening_balance += v;
+                        return v;
+                    }
+                },
+                {
+                    "orderable": false,
+                    "searchable": false,
+                    "data": "a.id",
+                    render: function(data, type, row, meta) {
+                        let v = Number(row.trans_deposit_total_amount);
+                        page_total_deposit += v;
+                        return `<font color="green">${v}</font>`;
+                    }
+                },
+                {
+                    "orderable": false,
+                    "searchable": false,
+                    "data": "a.id",
+                    render: function(data, type, row, meta) {
+                        let v = Number(row.trans_withdrawal_total_amount);
+                        page_total_withdrawal += v;
+                        return `<font color="red">${v}</font>`;
+                    }
+                },
+                {
+                    "orderable": false,
+                    "searchable": false,
+                    "data": "a.id",
+                    render: function(data, type, row, meta) {
+                        let v = Number(row.closing_balance);
+                        page_total_closing_balance += v;
+                        return v;
+                    }
+                },
+                {
+                    "orderable": false,
+                    "searchable": false,
+                    "data": "a.id",
+                    render: function(data, type, row, meta) {
+                        return `<a href="/trans/trans-list?bank_id=${row.id}"><i class="material-icons">visibility</i></a>`;
+                    }
+                },
+                {
+                    "searchable": false,
+                    "orderable": false,
+                    "data": "a.id",
+                    render: function(data, type, row, meta) {
+                        return `<label><input type="checkbox" id="${row.id}" value="${row.id}" data-id='${row.id}' ><span></span></label>`;
+                    }
+                },
+            ],
+            'columnDefs': [{
+                className: "dt-center",
+                targets: "_all"
+            }],
+            "order": [1, 'desc'],
+        });
+
+
+        $('#search_date_range').on("change", function() {
+            usersTable.ajax.url(`/bank/bank-report?start_date=${_start_date}&end_date=${_end_date}`).load();
+        })
+
+    });
+
+    function _init(item_id) {
+        var param = {
+            not_pagin: 1
+        };
+
+        $.post('/bank/bank-report-all', param, function(d) {
+            // checkStatus(d);
+            // console.log(d);
+            if (d.status) {
+                if (typeof d.data !== 'undefined') {
+                    $('#total_count').html(`Total Records: ${d.data.total_count}`);
+                    $('#total_opening_balance').html(d.data.opening_balance);
+                    $('#total_deposit').html(d.data.trans_deposit_total_amount);
+                    $('#total_withdrawal').html(d.data.trans_withdrawal_total_amount);
+                    $('#total_closing_balance').html(d.data.closing_balance);
+                    $('#total_trans_count').html(d.data.total_transaction_count);
+                }
+            } else {
+                // window.alert(d.msg);
+            }
+        }, 'json');
+    }
+
+    function updateStatus(item_id) {
+        if (confirm('Are you confirm to update status?')) {
+            var param = {
+                item_id: item_id
+            };
+
+            $(".ajaxLoader").show();
+            $.post('/bank/bank-block', param, function(d) {
+                checkStatus(d);
+                if (d.status) {
+                    // window.alert(d.msg);
+                    location.href = '/bank/bank-list';
+                } else {
+                    $(".ajaxLoader").fadeOut();
+                    window.alert(d.msg);
+                    location.href = '/bank/bank-list';
+                }
+            }, 'json');
+        }
+    }
+</script>

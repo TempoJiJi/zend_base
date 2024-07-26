@@ -1,0 +1,368 @@
+
+<!-- BEGIN: Page Main-->
+<div id="main">
+	<div class="row">
+		<div id="breadcrumbs-wrapper"
+			data-image="<?php echo C_GLOBAL_APP_ASSET; ?>images/gallery/breadcrumb-bg.jpg">
+			<!-- Search for small screen-->
+			<div class="container">
+				<div class="row">
+					<div class="col s12 m6 l6">
+						<h5 class="breadcrumbs-title mt-0 mb-0"><span>Add New Member</span></h5>
+					</div>
+					<div class="col s12 m6 l6 right-align-md">
+						<ol class="breadcrumbs mb-0">
+							<li class="breadcrumb-item"><a href="/user/user-list">Member Listing</a></li>
+							<li class="breadcrumb-item active">Add New Member</li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="col s12">
+			<div class="container">
+				<!-- users list start -->
+				<section class="users-list-wrapper section">
+					<div>
+						<div class="card card card-default scrollspy">
+							<div class="card-content">
+								<h4 class="card-title">Add New Member</h4>
+								<form class="paaswordvalidate">
+									<div class="row">
+										<div class="col s12">
+											<input type="hidden" id="item_id" name="item_id" value="0"
+												data-error=".errorTxt1" />
+										</div>
+										<div class="row">
+											<div class="col l6 s12">
+												<div class="input-field">
+													<label for="username">Member Username</label>
+													<input type="text" id="username" name="username" value=""
+														data-error=".errorTxt1" />
+													<small class="errorTxt1"></small>
+												</div>
+											</div>
+											<div class="col l6 s12">
+												<div class="input-field">
+													<label for="full_name">Member Full Name</label>
+													<input type="text" id="full_name" name="full_name" value=""
+														data-error=".errorTxt1" />
+													<small class="errorTxt1"></small>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col l6 s12">
+												<div class="input-field">
+													<label for="group_id" class='active'>Group</label>
+													<select id="group_id">
+													</select>
+												</div>
+											</div>
+											<div class="col l6 s12">
+												<div class="input-field">
+													<label for="phone">Contact Number</label>
+													<input type="text" id="phone" name="phone" value=""
+														data-error=".errorTxt1" />
+													<small class="errorTxt1"></small>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col l6 s12">
+												<div class="input-field">
+													<label for="email">Email (Optional)</label>
+													<input type="text" id="email" name="email" value=""
+														data-error=".errorTxt1" />
+													<small class="errorTxt1"></small>
+												</div>
+											</div>
+											
+											<div class="col l6 s12">
+												<label for="dob">Date Of Birth (Optional)</label>
+												<div id="view-date-picker">
+													<input type="text" class="datepicker" id="dob">
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col l6 s12">
+												<label for="referral_uid" class='active'>Referral Username (Optional)</label>
+												<div class="input-field">
+													<select class="select2-data-user browser-default" id="referral_uid"></select>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="row user_bank_list">
+											<div class="col l6 s12">
+												<p>Member Bank</p>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col s12">
+												<a onclick="addBank()" class="btn waves-effect waves-light mr-2">Add More Bank</a>
+											</div>
+										</div>
+										<br><br>
+										<div class="row">
+											<div class="col s12">
+												<a onclick="submitApi()" class="btn indigo waves-effect waves-light mr-2">Submit</a>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</section>
+				<!-- users list ends -->
+			</div>
+			<div class="content-overlay"></div>
+		</div>
+	</div>
+</div>
+<!-- END: Page Main-->
+
+<script type="text/javascript" src="<?php echo C_GLOBAL_JS ?>select2-user.js"></script>
+
+<script type="text/javascript">
+	$(".ajaxLoader").show();
+	var item_id = 0;
+	var banks_data = [];
+	var banks_count = 0;
+
+
+    $(document).ready(async function() {
+		await _init();
+
+		// multiple bank events
+		$('.user_bank_list').on("click", ".remove_field", function(e) { //user click on remove text
+            e.preventDefault();
+            $(this).parent('div').parent('div').parent('div').parent('div').remove();
+        })
+
+        var url = new URL(window.location.href);
+        item_id = url.searchParams.get("item_id");
+        if (typeof item_id === 'undefined' || item_id == "" || item_id == null || item_id == 0) {
+			item_id = 0;
+			addBank();
+		} else {
+            loadApi(item_id);
+        }
+
+		$(document).keyup(
+            function (e) {
+                if (e.keyCode === 13) {
+                    submitApi();
+                }
+            }
+        );
+
+        $(".ajaxLoader").fadeOut();
+
+	});
+
+	function addBank(bank_name = '', bank_acc = '') {
+		banks_count++;
+		$('.user_bank_list').append(`
+		<div class="col s12 m12 l12">
+			<div class="card gradient-shadow">
+				<div class="card-content white-text">
+					<div class="row">
+					<div class="col l6 s12">
+						<div class="input-field">
+							<label for="bank_name" class="active">Bank Name</label>
+							<select class="select2-data-array select2-data-bank-${banks_count} browser-default" name="bank_name[]">
+							</select>
+						</div>
+					</div>
+					<div class="col l6 s12">
+						<div class="input-field">
+							<label class="active">Bank Acc No</label>
+							<input type="text" name="bank_acc[]" value="${bank_acc}"/>
+						</div>
+						<a class="btn red btn-outline-danger waves-effect waves-light mr-2 remove_field">Remove</a>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		`);
+
+		$(`.select2-data-bank-${banks_count}`).select2({
+			dropdownAutoWidth: true,
+			width: '100%',
+			data: banks_data,
+			selectOnClose: true
+		});
+
+		var inps = document.getElementsByName('bank_name[]');
+		inps[inps.length - 1].value = bank_name;
+		$(`.select2-data-bank-${banks_count}`).trigger('change.select2');
+
+	}
+
+
+	function _init() {
+        return new Promise((resolve, reject) => {
+            var param = {
+            };
+
+            $.post('/user/user-add', param, function(d) {
+                checkStatus(d);
+                console.log(d);
+
+                if (d.status) {
+
+                    if (typeof d.data !== 'undefined') {
+                        let group_data = d.data.group_data;
+                        $(group_data).each(function(i) {
+                            $('#group_id').append(`<option value="${this.id}">${this.name}</option>`);
+                            $("#group_id").formSelect();
+                        });
+
+						// banks_data = d.data.banks_data;
+						$(d.data.banks_data).each(function() {
+							banks_data.push({
+								'id': this.value,
+								'value': this.value,
+								'text': this.text
+							});
+						});
+
+                    }
+                    resolve();
+                } else {
+                    window.alert(d.msg);
+                    location.href = '/news-list';
+                }
+            }, 'json');
+        });
+	}
+
+	function submitApi() {
+
+		if ($("#username").val().trim() == "") {
+			alert("Member ID Can't Be Empty");
+			return;
+		}
+		if ($("#full_name").val().trim() == "") {
+			alert("Full Name Can't Be Empty");
+			return;
+		}
+
+        if ($("#group_id").val().trim() == "") {
+			alert("Group Can't Be Empty");
+			return;
+		}
+		if ($("#phone").val().trim() == "") {
+			alert("Contact Number Can't Be Empty");
+			return;
+		}
+
+		var bank_name = [];
+		var inps = document.getElementsByName('bank_name[]');
+		for(let i = 0; i < inps.length; i++) {
+			if (inps[i].value != '') {
+				bank_name.push(inps[i].value);
+			}
+		}
+		var bank_acc = $("input[name='bank_acc[]']").map(function() {
+			return $(this).val();
+		}).get();
+
+		if (bank_name.length == 0 || bank_acc.length == 0) {
+			alert("Please fill in at least one bank info");
+			return;
+		}
+
+        if (confirm('Are you confirm to submit?')) {
+
+			var form = new FormData();
+            form.append('item_id', item_id);
+			form.append('username', $("#username").val().trim());
+			form.append('full_name', $("#full_name").val().trim());
+			form.append('group_id', $("#group_id").val().trim());
+			form.append('phone', $("#phone").val());
+			form.append('bank_name', bank_name);
+			form.append('bank_acc', bank_acc);
+			form.append('email', $("#email").val().trim());
+            form.append('dob', ($("#dob").val().trim()));
+            form.append('referral_uid', $("#referral_uid").val());
+
+			var settings = {
+				"async": true,
+				"crossDomain": true,
+				"url": '/user/user-add-submit',
+				"method": "POST",
+				"headers": {
+					"Accept": "application/json"
+				},
+				"processData": false,
+				"contentType": false,
+				"mimeType": "multipart/form-data",
+				"data": form
+			};
+			$(".ajaxLoader").show();
+
+			$.ajax(settings).done(function(d) {
+				console.log(d);
+				var d = JSON.parse(d);
+				$(".ajaxLoader").fadeOut();
+				if (typeof d.status !== 'undefined' && d.status) {
+					window.alert('Success');
+					window.location.href = "/user/user-list";
+				} else {
+					window.alert(d.msg);
+				}
+			});
+
+
+		}
+	}
+
+
+	function loadApi(item_id) {
+		var param = {
+			item_id: item_id
+		};
+
+		$.post('/user/user-edit', param, function(d) {
+			// checkStatus(d);
+            console.log(d);
+			if (d.status) {
+
+				$("#username").val(d.data.username);
+				$("#full_name").val(d.data.full_name);
+
+                $("#group_id").val(d.data.group_id);
+                $("#group_id").formSelect();
+
+				if (d.data.referral_uid != 0 && d.data.referral_uid != null) {
+					$(`.select2-data-user`).append(`<option value="${d.data.referral_uid}">Member ID: ${d.data.referral_uid} - Username: ${d.data.referral_username}</option`).trigger('change.select2');
+				}
+
+				$("#phone").val(d.data.phone);
+				$("#email").val(d.data.email);
+				$("#dob").val(d.data.dob);
+
+                // $("#bank_name").val(d.data.bank_name);
+				// $("#bank_acc").val(d.data.bank_acc);
+				$(d.data.bank_data).each(function() {
+					addBank(this.bank_name, this.bank_acc);
+				});
+
+
+                $('label').addClass('active');
+
+			} else {
+				window.alert(d.msg);
+				location.href = '/user/user-list';
+			}
+		}, 'json');
+
+	}
+</script>
+

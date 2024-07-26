@@ -1,0 +1,357 @@
+<link rel="stylesheet" type="text/css" href="<?php echo C_GLOBAL_APP_ASSET; ?>css/pages/page-users.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo C_GLOBAL_APP_ASSET; ?>css/pages/dashboard.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo C_GLOBAL_APP_ASSET; ?>css/themes/vertical-dark-menu-template/materialize.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo C_GLOBAL_APP_ASSET; ?>css/themes/vertical-dark-menu-template/style.css" />
+
+<!-- BEGIN: Page Main-->
+<div id="main">
+	<div class="row">
+		<div id="breadcrumbs-wrapper"
+			data-image="<?php echo C_GLOBAL_APP_ASSET; ?>images/gallery/breadcrumb-bg.jpg">
+			<!-- Search for small screen-->
+			<div class="container">
+				<div class="row">
+					<div class="col s12 m6 l6">
+						<h5 class="card-title breadcrumbs-title mt-0 mb-0"><span>Add New Bank</span></h5>
+					</div>
+					<div class="col s12 m6 l6 right-align-md">
+						<ol class="breadcrumbs mb-0">
+							<li class="breadcrumb-item"><a href="/bank/bank-list">Bank Listing</a></li>
+							<li class="card-title breadcrumb-item active">Add New Bank</li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="col s12">
+			<div class="container">
+				<!-- users list start -->
+				<section class="users-list-wrapper section">
+					<div class="row">
+                        <div class="col s12 m6 l6">
+                            <div class="card card card-default scrollspy">
+                                <div class="card-content">
+                                    <h4 class="card-title">Add New Company Bank</h4>
+                                    <form id="submit_form" class="paaswordvalidate">
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <input type="hidden" id="item_id" name="item_id" value="0"
+                                                    data-error=".errorTxt1" />
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12">
+                                                    <div class="input-field">
+                                                        <label for="bank_name" class='active'>Bank Name</label>
+                                                        <select class="select2-data-array select2-data-banks browser-default" id="bank_name">                                                        
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12">
+                                                    <div class="input-field">
+                                                        <label for="bank_acc_name">Bank Holder Name</label>
+                                                        <input type="text" id="bank_acc_name" name="bank_acc_name" value=""/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12">
+                                                    <div class="input-field">
+                                                        <label for="bank_acc_no">Bank Account No.</label>
+                                                        <input type="text" id="bank_acc_no" name="bank_acc_no" value=""/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row opening_balance">
+                                                <div class="col s12">
+                                                    <div class="input-field">
+                                                        <label for="opening_balance">Opening Balance</label>
+                                                        <input type="number" id="opening_balance" name="opening_balance" value="0"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12">
+                                                    <div class="input-field">
+                                                        <label for="min_deposit">Min Deposit Amount</label>
+                                                        <input type="number" id="min_deposit" name="min_deposit" value="0"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12">
+                                                    <div class="input-field">
+                                                        <label for="max_deposit">Max Deposit Amount</label>
+                                                        <input type="number" id="max_deposit" name="max_deposit" value="0"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col m4 l4 s12">
+                                                    <div class="input-field">
+                                                        <label for="transaction_limit_count">Daily Transaction Count Limit</label>
+                                                        <input type="number" id="transaction_limit_count" name="transaction_limit_count" value="0"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col m4 l4 s12">
+                                                    <div class="input-field">
+                                                        <label for="transaction_limit_amount">Daily Transaction Amount Limit</label>
+                                                        <input type="number" id="transaction_limit_amount" name="transaction_limit_amount" value="0"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col m4 l4 s12">
+                                                    <div class="input-field">
+                                                        <label for="withdrawal_limit_amount">Daily Withdrawal Limit</label>
+                                                        <input type="number" id="withdrawal_limit_amount" name="withdrawal_limit_amount" value="0"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12">
+                                                    <div class="input-field">
+                                                        <label class="active" for="card_role">Card Role</label>
+                                                        <select id="card_role"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- More Detail -->
+                                            <?php
+                                                $db = Zend_Db_Table::getDefaultAdapter();
+                                                $details = $db->query("select * from ag_bank_details where status=1 order by id asc")->fetchAll();
+                                                foreach($details as $d) {
+                                                    echo "
+                                                    <div class='row'>
+                                                        <div class='col s12'>
+                                                            <div class='input-field'>
+                                                                <label for='$d[name]'>$d[display] (Optional)</label>
+                                                                <input type='text' id='$d[name]' name='$d[name]' class='$d[class]' value='' optional/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    ";
+                                                }
+                                            ?>
+
+
+                                            <br>
+
+                                            <div class="row">
+                                                <div class="col s12">
+                                                    <a onclick="submitApi()" class="btn indigo waves-effect waves-light mr-2">Submit</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>  
+                        </div>
+					</div>
+				</section>
+				<!-- users list ends -->
+			</div>
+			<div class="content-overlay"></div>
+		</div>
+	</div>
+</div>
+<!-- END: Page Main-->
+
+<script type="text/javascript">
+	$(".ajaxLoader").show();
+	var item_id = 0;
+
+    $(document).ready(async function() {
+		await _init();
+
+        var url = new URL(window.location.href);
+        item_id = url.searchParams.get("item_id");
+        if (typeof item_id === 'undefined' || item_id == "" || item_id == null || item_id == 0) {
+			item_id = 0;
+		} else {
+            $('.card-title').html("Edit Company Bank");
+            loadApi(item_id);
+        }
+
+        $(document).keyup(
+            function (e) {
+                if (e.keyCode === 13) {
+                    console.log("SFSF");
+                    submitApi();
+                }
+            }
+        );
+
+        $(".ajaxLoader").fadeOut();
+
+	});
+
+    function readURL_cover(input) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+
+			reader.onload = function(e) {
+				$('#img-cover').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		} else {
+			$('#img-cover').attr('src', "");
+		}
+	}
+
+
+	function _init() {
+        return new Promise((resolve, reject) => {
+            var param = {
+            };
+
+            $.post('/bank/bank-add', param, function(d) {
+                checkStatus(d);
+                // console.log(d);
+
+                if (d.status) {
+
+                    if (typeof d.data !== 'undefined') {
+                        let banks_data = [];
+
+                        $(d.data.card_role).each(function() {
+                            console.log(this.display);
+                            $('#card_role').append(`<option value="${this.id}">${this.display}</option>`);
+                        });
+                        $('#card_role').formSelect();
+
+						$(d.data.bank_data).each(function() {
+							banks_data.push({
+								'id': this.value,
+								'value': this.value,
+								'text': this.text
+							});
+						});
+
+                        $(`.select2-data-banks`).select2({
+                            dropdownAutoWidth: true,
+                            width: '100%',
+                            data: banks_data,
+                            selectOnClose: true
+                        });
+                    }
+                    resolve();
+                } else {
+                    window.alert(d.msg);
+                    location.href = '/news-list';
+                }
+            }, 'json');
+        });
+	}
+
+	function submitApi() {
+
+        var form = new FormData();
+
+        let form_field = $('#submit_form input:not([readonly]), #submit_form select');
+        let exclude_id = ["opening_balance"];  // exclude required checking
+        for (let i = 0; i < form_field.length; i++){
+            let e = form_field[i];
+
+            if (typeof e.id === 'undefined' || e.id == '') {
+                continue;
+            }
+
+            // skip attribute optional as well
+            if (typeof $('#' + e.id).attr('optional') === 'undefined') {
+                if (!exclude_id.includes(e.id)) {
+                    if (typeof $("#" + e.id) === 'undefined' || $("#" + e.id).val() == null ||  $("#" + e.id).val() == "") {
+                        alert($(`label[for="${e.id}"]`).html() + " Can't Be Empty");
+                        break_flag = true;
+                        return;
+                    }
+                }
+            }
+
+            let val = $("#" + e.id).val();
+            form.append(e.id, val);
+        }
+
+        if (confirm('Are you confirm to submit?')) {
+
+			var settings = {
+				"async": true,
+				"crossDomain": true,
+				"url": '/bank/bank-add-submit',
+				"method": "POST",
+				"headers": {
+					"Accept": "application/json"
+				},
+				"processData": false,
+				"contentType": false,
+				"mimeType": "multipart/form-data",
+				"data": form
+			};
+			$(".ajaxLoader").show();
+
+			$.ajax(settings).done(function(d) {
+				console.log(d);
+				var d = JSON.parse(d);
+				$(".ajaxLoader").fadeOut();
+				if (typeof d.status !== 'undefined' && d.status) {
+					window.alert('Success');
+					window.location.href = "/bank/bank-list";
+				} else {
+					window.alert(d.msg);
+				}
+			});
+
+
+		}
+	}
+
+
+	function loadApi(item_id) {
+		var param = {
+			item_id: item_id
+		};
+
+		$.post('/bank/bank-edit', param, function(d) {
+			// checkStatus(d);
+            console.log(d);
+			if (d.status) {
+
+                $("#item_id").val(item_id);
+                $('.opening_balance').hide();
+
+				// $("#bank_name").val(d.data.bank_name);
+                $(".select2-data-banks").val(d.data.bank_name).trigger('change.select2');
+                $(".select2-data-banks").formSelect();
+                // $("#bank_name").formSelect();
+
+				$("#bank_acc_name").val(d.data.bank_acc_name);
+				$("#bank_acc_no").val(d.data.bank_acc_no);
+				$("#min_deposit").val(d.data.min_deposit);
+				$("#max_deposit").val(d.data.max_deposit);
+
+                $("#transaction_limit_count").val(d.data.transaction_limit_count);
+				$("#transaction_limit_amount").val(d.data.transaction_limit_amount);
+				$("#withdrawal_limit_amount").val(d.data.withdrawal_limit_amount);
+                
+                $("#card_role").val(d.data.card_role);
+                $("#card_role").formSelect();
+
+                // optional details in json array
+                let details = d.data.details;
+                for (var k in details){
+                    $(`#${k}`).val(details[k]);
+                }
+
+                $('label').addClass('active');
+
+			} else {
+				window.alert(d.msg);
+				location.href = '/bank/bank-list';
+			}
+		}, 'json');
+
+	}
+</script>
+

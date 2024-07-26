@@ -1,0 +1,316 @@
+<style>
+.asdjkl {
+   overflow: visible !important;
+}
+
+</style>
+
+<!-- BEGIN: Page Main-->
+<div id="main">
+    <div class="row">
+        <div id="breadcrumbs-wrapper"
+            data-image="<?php echo C_GLOBAL_APP_ASSET; ?>images/gallery/breadcrumb-bg.jpg">
+            <!-- Search for small screen-->
+            <div class="container">
+                <div class="row">
+                    <div class="col s12 m6 l6">
+                        <h5 class="breadcrumbs-title mt-0 mb-0"><span>Turnover List</span></h5>
+                    </div>
+                    <div class="col s12 m6 l6 right-align-md">
+                        <ol class="breadcrumbs mb-0">
+                            <li class="breadcrumb-item"><a href="/index">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">Turnover List
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12">
+            <div class="container">
+                <!-- users list start -->
+                <section class="users-list-wrapper section">
+                    <div class="users-list-filter">
+                        <div class="card-panel">
+                            <div class="row">
+                                <div class="col s12 m4 l3">
+                                    <label for="search_name">Username</label>
+                                    <div class="input-field">
+                                        <input type="text" id="search_name" class="dt-search" data-dt-col="0">
+                                    </div>
+                                </div>
+                                <div class="col s12 m4 l3">
+                                    <label for="search_status">Rebate Status</label>
+                                    <div class="input-field">
+                                        <select id="search_status" class="dt-search" data-dt-col="4">
+                                            <option value="">All</option>
+                                            <option value="0">Pending</option>
+                                            <option value="1">Approved</option>
+                                            <option value="2">Failed</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <a onclick="_dtSearch()" class="btn indigo waves-effect waves-light mr-2">Search</a>
+                                    <a onclick="_resetDtSearch()" class="btn grey darken-3 waves-effect waves-light mr-2">Reset</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a id="upload_btn" class="waves-effect waves-light btn modal-trigger mb-2 mr-1" href="javascript:void(0);" onclick="rebateCalc()">Calculate Rebate</a>
+
+                    <div class="users-list-table">
+                        <div class="card">
+                            <div class="card-content">
+                                <!-- datatable start -->
+                                <div class="responsive-table" style="overflow-x:auto;">
+                                    <table id="list-datatable" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Username</th>
+                                                <!-- <th>Provider</th> -->
+                                                <th>Turnover</th>
+                                                <th>Rebate Percentage</th>
+                                                <th>Rebate Amount</th>
+                                                <th>Rebate Status</th>
+                                                <th>System Remark</th>
+                                                <th>#</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                        <tfoot style="background: #C5C5C5; color: #000075;">
+                                            <tr>
+                                                <td colspan="1">Total</td>
+                                                <td id="page_total_turnover">0</td>
+                                                <td></td>
+                                                <td id="page_total_rebate">0</td>
+                                                <td colspan="3"></td>
+                                            </tr>
+                                            <tr>
+                                                <td id="total_count" colspan="1" class="dt-center">Total Records: 0</td>
+                                                <td id="total_turnover" class="dt-center">0</td>
+                                                <td></td>
+                                                <td id="total_rebate" class="dt-center">0</td>
+                                                <td colspan="3" class="dt-center"></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <!-- datatable ends -->
+                            </div>
+                        </div>
+                    </div>
+
+
+                </section>
+                <!-- users list ends -->
+            </div>
+            <div class="content-overlay"></div>
+        </div>
+    </div>
+</div>
+<!-- END: Page Main-->
+
+
+<script type="text/javascript">
+    $(".ajaxLoader").show();
+    var item_id = 0;
+    var page_total_turnover = 0;
+    var page_total_rebate = 0;
+
+    $(document).ready(function() {
+        $(".ajaxLoader").fadeOut();
+
+        var url = new URL(window.location.href);
+        item_id = url.searchParams.get("id");
+        if (typeof item_id === 'undefined' || item_id == "" || item_id == null || item_id == 0) {
+            location.href = '/rebate/rebate-upload';
+        } 
+        _init(item_id);
+
+        // datatable initialization
+        usersTable = $("#list-datatable").DataTable({
+            "lengthChange": true, // Hide "Show entries"
+            "dom": 'lrtp', // Hide search bar
+            "processing": true,
+            "serverSide": true,
+            // 'responsive': true,
+            'serverMethod': 'post',
+            "ajax": {
+                "url": '/rebate/rebate-detail?item_id=' + item_id,
+                "type": "POST",
+                "dataFilter": function(data) {
+                    // checkStatus(data);
+
+                    // reset total
+                    page_total_turnover = 0;
+                    page_total_rebate = 0;
+
+                    data = JSON.parse(data);
+                    console.log(data);
+                    if (data.status == false) {
+                        alert(data.msg);
+                        location.href = '/';
+                        exit(0);
+                    } else {
+                        $(".ajaxLoader").fadeOut();
+                        return JSON.stringify(data.data);
+                    }
+                }
+            },
+            "drawCallback": function(settings) {
+                $('#page_total_turnover').html(page_total_turnover);
+                $('#page_total_rebate').html(page_total_rebate);
+            },
+            "columns": [
+                {
+                    "data": "a.username",
+                    render: function(data, type, row, meta) {
+                        return row.username;
+                    }
+                },
+                // {
+                //     "searchable": false,
+                //     "orderable": false,
+                //     "data": "a.provider",
+                //     render: function(data, type, row, meta) {
+                //         return row.provider;
+                //     }
+                // },
+                {
+                    "searchable": false,
+                    "data": "a.turnover",
+                    render: function(data, type, row, meta) {
+                        let v = Number(row.turnover);
+                        page_total_turnover += v;
+                        return v;
+                    }
+                },
+                {
+                    "searchable": false,
+                    "data": "a.rebate_percentage",
+                    render: function(data, type, row, meta) {
+                        return row.rebate_percentage;
+                    }
+                },
+                {
+                    "data": "a.rebate_amount",
+                    render: function(data, type, row, meta) {
+                        let v = Number(row.rebate_amount);
+                        page_total_rebate += v;
+                        return v;
+                    }
+                },
+                {
+                    "orderable": false,
+                    "data": "a.rebate_status",
+                    render: function(data, type, row, meta) {
+                        if (row.rebate_status == 2) {
+                            return `<font color="red">Failed</font>`;
+                        } else if (row.rebate_status == 1) {
+                            return `<font color="blue">Approved</font>`;
+                        } else {
+                            return `<font color="black">Pending</font>`;
+                        }
+                    }
+                },
+                {
+                    "searchable": false,
+                    "orderable": false,
+                    "data": "a.sys_remark",
+                    render: function(data, type, row, meta) {
+                        return row.sys_remark;
+                    }
+                },
+                {
+                    "searchable": false,
+                    "orderable": false,
+                    "data": "a.id",
+                    render: function(data, type, row, meta) {
+                        let checked = '';
+                        if (Number(row.is_tick) == 1) {
+                            checked = 'checked';
+                        }
+                        console.log(checked);
+                        return `<label><input type="checkbox" id="${row.id}" value="${row.id}" data-id='${row.id}' onchange="_tick(${row.id}, this)" ${checked}><span></span></label>`;
+                    }
+                },
+
+            ],
+            'columnDefs': [{
+                className: "dt-center",
+                targets: "_all"
+            }],
+            "order": [0, 'asc'],
+        });
+
+
+    });
+
+    function _init(item_id) {
+        var param = {
+            item_id: item_id,
+        };
+
+        $.post('/rebate/rebate-report-all', param, function(d) {
+            // checkStatus(d);
+            // console.log(d);
+            if (d.status) {
+                if (typeof d.data !== 'undefined') {
+                    $('#total_count').html(`Total Records: ${d.data.total_count}`);
+                    $('#total_turnover').html(d.data.total_turnover);
+                    $('#total_rebate').html(d.data.total_rebate);
+                }
+            } else {
+                // window.alert(d.msg);
+            }
+        }, 'json');
+    }
+
+    function rebateCalc() {
+        if (confirm("Are you confirm to calculate rebate ?")) {
+            var param = {
+                item_id: item_id,
+            };
+
+            $(".ajaxLoader").show();
+            $.post('/rebate/rebate-calculate', param, function(d) {
+                checkStatus(d);
+                $(".ajaxLoader").fadeOut();
+                if (d.status) {
+                    window.alert(d.msg);
+                    location.reload();
+                } else {
+                    window.alert(d.msg);
+                    location.reload();
+                }
+            }, 'json');
+        }
+    }
+
+    function _tick(item_id, obj) {
+        let is_tick = 0;
+        if ($(obj).is(':checked')) {
+            is_tick = 1;
+        } else {
+            is_tick = 0;
+        }
+
+        var param = {
+            item_id: item_id,
+            is_tick: is_tick
+        };
+
+        $.post('/rebate/rebate-tick', param, function(d) {
+            if (d.status) {
+            } else {
+            }
+        }, 'json');
+    }
+
+</script>

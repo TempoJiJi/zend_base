@@ -1,0 +1,13 @@
+<script type="text/javascript">
+    // logout();
+
+    function logout() {
+        $(".ajaxLoader").show();
+        $("#btnLogout").addClass("disabled").attr("disabled", true);
+        param = {};
+        $.post('/logout', param, function(d) {
+            $(".ajaxLoader").fadeOut();
+            location.href = '/';
+        }, 'json');
+    }
+</script>

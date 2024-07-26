@@ -1,0 +1,277 @@
+<style>
+    #percent-sign {
+        top: 12px;
+        left: 55px;
+        color: #555;
+        position: absolute;
+        z-index: 1;
+    }
+</style>
+
+<!-- BEGIN: Page Main-->
+<div id="main">
+    <div class="row">
+        <div id="breadcrumbs-wrapper"
+            data-image="<?php echo C_GLOBAL_APP_ASSET; ?>images/gallery/breadcrumb-bg.jpg">
+            <!-- Search for small screen-->
+            <div class="container">
+                <div class="row">
+                    <div class="col s12 m6 l6">
+                        <h5 class="breadcrumbs-title mt-0 mb-0"><span>Cashback Setting</span></h5>
+                    </div>
+                    <div class="col s12 m6 l6 right-align-md">
+                        <ol class="breadcrumbs mb-0">
+                            <li class="breadcrumb-item"><a href="/index">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">Cashback Setting
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12">
+            <div class="container">
+                <!-- users list start -->
+                <section class="users-list-wrapper section">
+                    <div class="users-list-filter">
+                        <div class="card-panel">
+                            <div class="row">
+                                <div class="col s12 m4 l3">
+                                    <label for="search_name">Group Name</label>
+                                    <div class="input-field">
+                                        <input type="text" id="search_name" class="dt-search" data-dt-col="1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <a onclick="_dtSearch()" class="btn indigo waves-effect waves-light mr-2">Search</a>
+                                    <a onclick="_resetDtSearch()" class="btn grey darken-3 waves-effect waves-light mr-2">Reset</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div id="modal1" class="modal modal-fixed-footer">
+                        <div class="modal-content">
+                            <h4 id="modal_title"></h4>
+                            <form class="paaswordvalidate">
+                                <div class="row">
+                                    <div class="col s12">
+                                        <input type="hidden" id="item_id" name="item_id" value="0" data-error=".errorTxt1">
+                                    </div>
+                                    <div class="col s12">
+                                        <div class="input-field">
+                                            <label for="group_name">Group Name</label>
+                                            <input type="text" id="group_name" name="group_name" value="Group Name" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col s12 m6">
+                                        <div class="input-field">
+                                            <label class="active" for="is_active">Active Status</label>
+                                            <select id="is_active">
+                                                <option value="0">Inactive</option>
+                                                <option value="1">Active</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col s12 m6">
+                                        <div class="input-field">
+                                            <label class="active" for="percentage">Cashback Percentage</label>
+                                            <span id="percent-sign">%</span><input type="number" id="percentage" name="percentage" value="" step="1" onKeyPress="if(this.value.length==3) return false; else {return event.charCode >= 48 && event.charCode <= 57}" placeholder="10">
+                                        </div>
+                                    </div>
+                                    <div class="col s12 m6">
+                                        <div class="input-field">
+                                            <label class="active" for="min_amount">Min Release Amount</label>
+                                            <input type="number" id="min_amount" name="min_amount" value="" placeholder="0">
+                                        </div>
+                                    </div>
+                                    <div class="col s12 m6">
+                                        <div class="input-field">
+                                            <label class="active" for="max_amount">Max Release Amount</label>
+                                            <input type="number" id="max_amount" name="max_amount" value="" placeholder="0.000">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="col s12 display-flex justify-content-end form-action">
+                                <a onclick="editSubmit()" class="btn indigo waves-effect waves-light mr-2">
+                                    Save changes
+                                </a>
+                                <a onclick="$('#modal1').modal('close');" class="btn btn-light-pink waves-effect waves-light mb-1">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="users-list-table">
+                        <div class="card">
+                            <div class="card-content">
+                                <!-- datatable start -->
+                                <div class="responsive-table" style="overflow-x:auto;">
+                                    <table id="list-datatable" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Group Name</th>
+                                                <th>Status</th>
+                                                <th>Cashback Percentage</th>
+                                                <th>Edit</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- datatable ends -->
+                            </div>
+                        </div>
+                    </div>
+
+
+                </section>
+                <!-- users list ends -->
+            </div>
+            <div class="content-overlay"></div>
+        </div>
+    </div>
+</div>
+<!-- END: Page Main-->
+
+
+<script type="text/javascript">
+    $(".ajaxLoader").show();
+
+    $(document).ready(function() {
+        $(".ajaxLoader").fadeOut();
+
+        // datatable initialization
+        usersTable = $("#list-datatable").DataTable({
+            "lengthChange": true, // Hide "Show entries"
+            "dom": 'lrtp', // Hide search bar
+            "processing": true,
+            "serverSide": true,
+            // 'responsive': true,
+            'serverMethod': 'post',
+            "ajax": {
+                "url": '/cashback/cashback-setting',
+                "type": "POST",
+                "dataFilter": function(data) {
+                    // checkStatus(data);
+                    data = JSON.parse(data);
+                    console.log(data);
+                    if (data.status == false) {
+                        alert(data.msg);
+                        location.href = '/';
+                        exit(0);
+                    } else {
+                        $(".ajaxLoader").fadeOut();
+                        return JSON.stringify(data.data);
+                    }
+                }
+            },
+            "drawCallback": function(settings) {
+            },
+            "columns": [
+                {
+                    "data": "a.id",
+                    render: function(data, type, row, meta) {
+                        return row.id;
+                    }
+                },
+                {
+                    "data": "b.name",
+                    render: function(data, type, row, meta) {
+                        return row.group_name;
+                    }
+                },
+                {
+                    "data": "a.cashback_active",
+                    render: function(data, type, row, meta) {
+                        if (row.cashback_active == 1) {
+                            return `<font color="blue">Active</font>`;
+                        } else {
+                            return `<font color="red">Inactive</font>`;
+                        }
+                    }
+                },
+                {
+                    "data": "a.cashback_percentage",
+                    render: function(data, type, row, meta) {
+                        return row.cashback_percentage;
+                    }
+                },
+                {
+                    "orderable": false,
+                    "searchable": false,
+                    "data": "a.id",
+                    render: function(data, type, row, meta) {
+                        return `<a href="javascript:void(0);" onclick="showModal('${row.id}', '${row.group_name}', '${row.cashback_percentage}', '${row.cashback_active}', '${row.cashback_max}', '${row.cashback_min}')"><i class="material-icons">edit</i></a>`;
+                    }
+                },
+            ],
+            'columnDefs': [{
+                className: "dt-center",
+                targets: "_all"
+            }],
+            "order": [0, 'asc'],
+        });
+
+    });
+
+    function showModal(item_id, group_name, percentage, is_active, max_amount, min_amount) {
+        $(`#item_id`).val(item_id);
+        $(`#group_name`).val(group_name);
+        $(`#percentage`).val(percentage);
+        $(`#min_amount`).val(min_amount);
+        $(`#max_amount`).val(max_amount);
+        $('#is_active').val(is_active);
+        $('#is_active').formSelect();
+        $('#modal1').modal("open");
+
+    }
+
+    function editSubmit(item_id, name, type = 0) {
+
+        let percentage = Number($(`#percentage`).val());
+        if (percentage > 100 || percentage < 0) {
+            return alert("Percentage must between 0 to 100");
+        }
+        let min_amount = parseFloat($(`#min_amount`).val());
+        if (min_amount < 0) {
+            return alert("Min Release Amount can't be negative value");
+        }
+        let max_amount = parseFloat($(`#max_amount`).val());
+        if (max_amount < 0) {
+            return alert("Max Release Amount can't be negative value");
+        }
+
+        if (confirm("Are you confirm to update ?")) {
+            var param = {
+                item_id: $(`#item_id`).val(),
+                percentage: $(`#percentage`).val(),
+                min_amount: $(`#min_amount`).val(),
+                max_amount: $(`#max_amount`).val(),
+                is_active: $(`#is_active`).val(),
+            };
+
+            $(".ajaxLoader").show();
+            $.post('/cashback/cashback-setting-edit', param, function(d) {
+                checkStatus(d);
+                $(".ajaxLoader").fadeOut();
+                if (d.status) {
+                    window.alert(d.msg);
+                    location.href = '/cashback/cashback-setting';
+                } else {
+                    window.alert(d.msg);
+                    location.href = '/cashback/cashback-setting';
+                }
+            }, 'json');
+        }
+    }
+</script>

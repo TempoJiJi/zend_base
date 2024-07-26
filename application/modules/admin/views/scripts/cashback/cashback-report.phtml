@@ -1,0 +1,218 @@
+<!-- custom date range picker js, class name: search_date_range -->
+<script type="text/javascript" src="<?php echo C_GLOBAL_JS ?>date-range.js"></script>
+
+<!-- BEGIN: Page Main-->
+<div id="main">
+    <div class="row">
+        <div id="breadcrumbs-wrapper"
+            data-image="<?php echo C_GLOBAL_APP_ASSET; ?>images/gallery/breadcrumb-bg.jpg">
+            <!-- Search for small screen-->
+            <div class="container">
+                <div class="row">
+                    <div class="col s12 m6 l6">
+                        <h5 class="breadcrumbs-title mt-0 mb-0"><span>Cashback Report</span></h5>
+                    </div>
+                    <div class="col s12 m6 l6 right-align-md">
+                        <ol class="breadcrumbs mb-0">
+                            <li class="breadcrumb-item"><a href="/index">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">Cashback Report
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12">
+            <div class="container">
+                <!-- users list start -->
+                <section class="users-list-wrapper section">
+                    <div class="users-list-filter">
+                        <div class="card-panel">
+                            <div class="row">
+                                <div class="col s12 m4 l3">
+                                    <label for="search_date_range">Search Date</label>
+                                    <div class="input-field">
+                                        <input type="text" name="dates" id="search_date_range">
+                                    </div>
+                                </div>
+                                <div class="col s12 m4 l3">
+                                    <label for="search_name">Username</label>
+                                    <div class="input-field">
+                                        <input type="text" id="search_name" class="dt-search" data-dt-col="0">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <a onclick="_dtSearch()" class="btn indigo waves-effect waves-light mr-2">Search</a>
+                                    <a onclick="_resetDtSearch()" class="btn grey darken-3 waves-effect waves-light mr-2">Reset</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="users-list-table">
+                        <div class="card">
+                            <div class="card-content">
+                                <!-- datatable start -->
+                                <div class="responsive-table" style="overflow-x:auto;">
+                                    <table id="list-datatable" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Username</th>
+                                                <th>Total Win Amount</th>
+                                                <th>Total Lose Amount</th>
+                                                <th>Total Cashback Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                        <tfoot style="background: #C5C5C5; color: #000075;">
+                                            <tr>
+                                                <td colspan="1">Total</td>
+                                                <td id="page_total_win">0</td>
+                                                <td id="page_total_lose">0</td>
+                                                <td id="page_total_cashback">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td id="total_count" colspan="1" class="dt-center">Total Records: 0</td>
+                                                <td id="total_win" class="dt-center">0</td>
+                                                <td id="total_lose" class="dt-center">0</td>
+                                                <td id="total_cashback" class="dt-center">0</td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <!-- datatable ends -->
+                            </div>
+                        </div>
+                    </div>
+
+
+                </section>
+                <!-- users list ends -->
+            </div>
+            <div class="content-overlay"></div>
+        </div>
+    </div>
+</div>
+<!-- END: Page Main-->
+
+
+<script type="text/javascript">
+    $(".ajaxLoader").show();
+    var page_total_win = 0;
+    var page_total_lose = 0;
+    var page_total_cashback = 0;
+    
+    $(document).ready(function() {
+        $(".ajaxLoader").fadeOut();
+        _init();
+
+        // datatable initialization
+        usersTable = $("#list-datatable").DataTable({
+            "lengthChange": true, // Hide "Show entries"
+            "dom": 'lrtp', // Hide search bar
+            "processing": true,
+            "serverSide": true,
+            // 'responsive': true,
+            'serverMethod': 'post',
+            "ajax": {
+                "url": '/cashback/cashback-report',
+                "type": "POST",
+                "dataFilter": function(data) {
+                    // checkStatus(data);
+
+                    // reset total
+                    page_total_win = 0;
+                    page_total_lose = 0;
+                    page_total_cashback = 0;
+
+                    data = JSON.parse(data);
+                    console.log(data);
+                    if (data.status == false) {
+                        alert(data.msg);
+                        location.href = '/';
+                        exit(0);
+                    } else {
+                        $(".ajaxLoader").fadeOut();
+                        return JSON.stringify(data.data);
+                    }
+                }
+            },
+            "drawCallback": function(settings) {
+                $('#page_total_win').html(page_total_win);
+                $('#page_total_lose').html(page_total_lose);
+                $('#page_total_cashback').html(page_total_cashback);
+            },
+            "columns": [
+                {
+                    "data": "a.username",
+                    render: function(data, type, row, meta) {
+                        return row.username;
+                    }
+                },
+                {
+                    "searchable": false,
+                    "data": "a.win_amount",
+                    render: function(data, type, row, meta) {
+                        let v = Number(row.win_amount);
+                        page_total_win += v;
+                        return v;
+                    }
+                },
+                {
+                    "searchable": false,
+                    "data": "a.lose_amount",
+                    render: function(data, type, row, meta) {
+                        let v = Number(row.lose_amount);
+                        page_total_lose += v;
+                        return v;
+                    }
+                },
+                {
+                    "searchable": false,
+                    "data": "a.cashback_amount",
+                    render: function(data, type, row, meta) {
+                        let v = Number(row.cashback_amount);
+                        page_total_cashback += v;
+                        return v;
+                    }
+                },
+            ],
+            'columnDefs': [{
+                className: "dt-center",
+                targets: "_all"
+            }],
+            "order": [0, 'asc'],
+        });
+
+        $('#search_date_range').on("change", function() {
+            usersTable.ajax.url(`/cashback/cashback-report?start_date=${_start_date}&end_date=${_end_date}`).load();
+        })
+
+    });
+
+    function _init() {
+        var param = {
+        };
+
+        $.post('/cashback/cashback-report-all', param, function(d) {
+            // checkStatus(d);
+            // console.log(d);
+            if (d.status) {
+                if (typeof d.data !== 'undefined') {
+                    $('#total_count').html(`Total Records: ${d.data.total_count}`);
+                    $('#total_win').html(d.data.total_win);
+                    $('#total_lose').html(d.data.total_lose);
+                    $('#total_cashback').html(d.data.total_cashback);
+                }
+            } else {
+                // window.alert(d.msg);
+            }
+        }, 'json');
+    }
+
+
+</script>

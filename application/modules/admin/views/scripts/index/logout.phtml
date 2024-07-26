@@ -1,0 +1,27 @@
+<script type="text/javascript">
+    // logout();
+
+    function logout() {
+        $(".ajaxLoader").show();
+        $("#btnLogout").addClass("disabled").attr("disabled", true);
+        param = {};
+        $.post('/logout', param, function(d) {
+            $(".ajaxLoader").fadeOut();
+            location.reload();
+        }, 'json');
+    }
+</script>
+
+<div class="preloader-wrapper big active">
+    <div class="spinner-layer spinner-blue-only">
+        <div class="circle-clipper left">
+            <div class="circle"></div>
+        </div>
+        <div class="gap-patch">
+            <div class="circle"></div>
+        </div>
+        <div class="circle-clipper right">
+            <div class="circle"></div>
+        </div>
+    </div>
+</div>

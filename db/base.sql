@@ -1,0 +1,31 @@
+CREATE TABLE `ag_api_log` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `uid` INT(11) NOT NULL DEFAULT '0',
+  `ip` VARCHAR(255) NULL DEFAULT NULL,
+  `auth_key` VARCHAR(10) NULL DEFAULT NULL,
+  `apiname` VARCHAR(45) NULL DEFAULT NULL,
+  `user_input` TEXT NULL DEFAULT NULL,
+  `server_output` MEDIUMTEXT NULL DEFAULT NULL,
+  `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `responsed_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC));
+
+
+CREATE TABLE `ag_admin_table` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(100) NOT NULL,
+  `password` VARCHAR(200) NOT NULL,
+  `email` VARCHAR(100) NULL DEFAULT NULL,
+  `mobileno` VARCHAR(20) NULL DEFAULT NULL,
+  `access` VARCHAR(450) NULL DEFAULT NULL,
+  `image` TEXT NULL DEFAULT NULL,
+  `last_login` DATETIME NULL DEFAULT NULL,
+  `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `status` TINYINT(4) NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC));
+
+  
+INSERT INTO `ag_admin_table` (`id`, `username`, `password`, `last_login`, `created_at`, `updated_at`, `status`) VALUES (NULL, 'admin', '95d53bf24b4c267e64fa593e5d543780', '2023-11-06 10:44:25', '2023-10-11 18:59:51', '2023-11-06 10:44:25', '1');

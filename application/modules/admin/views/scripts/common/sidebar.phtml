@@ -1,0 +1,129 @@
+<?php $sess = new Zend_Session_Namespace('Zend_Auth'); ?>
+
+<!-- BEGIN: SideNav-->
+<aside class="sidenav-main nav-expanded nav-lock nav-collapsible sidenav-dark sidenav-active-rounded">
+    <div class="brand-sidebar">
+        <h1 class="logo-wrapper">
+            <a class="brand-logo darken-1" href="/index">
+                <img class="hide-on-med-and-down" src="<?php echo C_GLOBAL_IMG; ?>logo.png" alt="" />
+            </a>
+            <a class="navbar-toggler" href="#"><i class="material-icons">menu</i></a>
+        </h1>
+    </div>
+    <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out" data-menu="menu-navigation" data-collapsible="accordion">
+
+        <li class="active bold"><a class="waves-effect waves-cyan" href="/index"><i class="material-icons">settings_input_svideo</i><span class="menu-title" data-i18n="Dashboard">Dashboard</span></a></li>
+
+        <li style="display: none;" class="bold c_user"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">account_circle</i><span class="menu-title" data-i18n="product">Member Management</span></a>
+            <div class="collapsible-body">
+                <ul class="collapsible collapsible-sub" data-collapsible="accordion">
+                    <li><a href="/user/user-list"><i class="material-icons">list</i><span data-i18n="Invoice List">Member Listing</span></a></li>
+                    <li><a href="/user/user-group"><i class="material-icons">list</i><span data-i18n="Invoice Edit">Member Group</span></a></li>
+                </ul>
+            </div>
+        </li>
+        <li style="display: none;" class="bold c_bank"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">account_balance</i><span class="menu-title" data-i18n="product">Bank Management</span></a>
+            <div class="collapsible-body">
+                <ul class="collapsible collapsible-sub" data-collapsible="accordion">
+                    <li><a href="/bank/banks"><i class="material-icons">list</i><span data-i18n="Invoice List">Banks</span></a></li>
+                    <li><a href="/bank/bank-list"><i class="material-icons">list</i><span data-i18n="Invoice List">Company Bank</span></a></li>
+                    <li><a href="/bank/bank-threshold"><i class="material-icons">list</i><span data-i18n="Invoice List">Bank Threshold</span></a></li>
+                    <li><a href="/bank/bank-report"><i class="material-icons">list</i><span data-i18n="Invoice List">Bank Statement</span></a></li>
+                </ul>
+            </div>
+        </li>
+        <li style="display: none;" class="bold c_trans"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">credit_card</i><span class="menu-title" data-i18n="product">Transaction</span></a>
+            <div class="collapsible-body">
+                <ul class="collapsible collapsible-sub" data-collapsible="accordion">
+                    <li><a href="/trans/trans-add"><i class="material-icons">list</i><span data-i18n="Invoice List">Add New Transaction</span></a></li>
+                    <li><a href="/trans/trans-list"><i class="material-icons">list</i><span data-i18n="Invoice List">Transaction History</span></a></li>
+                </ul>
+            </div>
+        </li>
+
+        <li style="display: none;" class="bold c_rebate"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">attach_money</i><span class="menu-title" data-i18n="product">Rebate</span></a>
+            <div class="collapsible-body">
+                <ul class="collapsible collapsible-sub" data-collapsible="accordion">
+                    <li><a href="/rebate/rebate-setting"><i class="material-icons">list</i><span data-i18n="Invoice List">Rebate Setting</span></a></li>
+                    <li><a href="/rebate/rebate-upload"><i class="material-icons">list</i><span data-i18n="Invoice Edit">Rebate File List</span></a></li>
+                    <li><a href="/rebate/rebate-report"><i class="material-icons">list</i><span data-i18n="Invoice Edit">Rebate Report</span></a></li>
+                </ul>
+            </div>
+        </li>
+        <li style="display: none;" class="bold c_cashback"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">attach_money</i><span class="menu-title" data-i18n="product">Cashback</span></a>
+            <div class="collapsible-body">
+                <ul class="collapsible collapsible-sub" data-collapsible="accordion">
+                    <li><a href="/cashback/cashback-setting"><i class="material-icons">list</i><span data-i18n="Invoice List">Cashback Setting</span></a></li>
+                    <li><a href="/cashback/cashback-upload"><i class="material-icons">list</i><span data-i18n="Invoice Edit">Cashback File List</span></a></li>
+                    <li><a href="/cashback/cashback-report"><i class="material-icons">list</i><span data-i18n="Invoice Edit">Cashback Report</span></a></li>
+                </ul>
+            </div>
+        </li>
+        <li style="display: none;" class="bold c_promo"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">attach_money</i><span class="menu-title" data-i18n="product">Promotion</span></a>
+            <div class="collapsible-body">
+                <ul class="collapsible collapsible-sub" data-collapsible="accordion">
+                    <li><a href="/promo/promo-add"><i class="material-icons">list</i><span data-i18n="Invoice List">Add New Promotion</span></a></li>
+                    <li><a href="/promo/promo-list"><i class="material-icons">list</i><span data-i18n="Invoice Edit">Promotion History</span></a></li>
+                </ul>
+            </div>
+        </li>
+        <li style="display: none;" class="bold c_sadmin"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">supervisor_account</i><span class="menu-title" data-i18n="product">Admin Management</span></a>
+            <div class="collapsible-body">
+                <ul class="collapsible collapsible-sub" data-collapsible="accordion">
+                    <li><a href="/sadmin/sadmin-list"><i class="material-icons">list</i><span data-i18n="Invoice List">Admin Listing</span></a></li>
+                </ul>
+            </div>
+        </li>
+
+    </ul>
+    <div class="navigation-background"></div><a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only" href="#" data-target="slide-out"><i class="material-icons">menu</i></a>
+</aside>
+<!-- END: SideNav-->
+
+
+<script>
+
+acl();
+
+function acl() {
+    var param = {
+    };
+    $.post('/sadmin/sadmin-get-acl', param, function(d) {
+        // console.log(d);
+        if (d.status) {
+            $(d.data).each(function() {
+                // console.log(this.controller);
+                $(`.c_${this.controller}`).show();
+            });
+        } else {
+            window.alert(d.msg);
+            location.href = '/logout';
+        }
+    }, 'json');
+}
+
+// Get the sidebar and logo elements
+const sidebar = document.querySelector('.sidenav-main');
+const logo = document.querySelector('.brand-logo img');
+
+// Function to check if sidebar is collapsed
+function isSidebarCollapsed() {
+    return $('.sidenav-main').hasClass('nav-collapsed');
+}
+
+// Function to change the logo based on sidebar state
+function updateLogo() {
+    if (isSidebarCollapsed()) {
+        // Change the logo to the collapsed version
+        logo.src = '<?php echo C_GLOBAL_IMG; ?>logo-2.png';
+    } else {
+        // Change the logo to the normal version
+        logo.src = '<?php echo C_GLOBAL_IMG; ?>logo.png';
+    }
+}
+
+// Initial logo update
+updateLogo();
+
+sidebar.addEventListener('transitionend', updateLogo);
+</script>
